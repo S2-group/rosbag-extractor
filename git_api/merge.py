@@ -25,4 +25,3 @@ if __name__ == '__main__':
                     f0.write(line)
                 f1.close()
         f0.close()
-

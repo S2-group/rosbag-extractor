@@ -33,7 +33,7 @@ day=30
 while [ $year -lt 2022 ]; do # -lt -> '<'
   for month in ${months[*]}; do # search for each month
     echo $month"/"$year
-    echo "rest 60 seconds now"
+    echo "rest 30 seconds now"
     sleep 30
 
     # determine days of the month

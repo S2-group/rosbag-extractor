@@ -4,7 +4,7 @@
 
 ### extract repositories
 # extraction_script filename terms username hash
-#./extract_repo.sh repos rosbag BerryC-VU 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
+#./extract_ros_repo.sh repos rosbag BerryC-VU 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
 
 ### extract commits
 # extraction_script filename terms username hash
