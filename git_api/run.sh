@@ -10,7 +10,8 @@
 # extraction_script filename terms username hash
 #./extract_commits.sh commits rosbag BerryC-VU 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
 
+### extract rosbag_experiment related repos+commits
+./extract_ros_exp.sh ros_exp rosbag+experiment BerryC-VU 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
+
 ### merge all JSON files
-# merge_script dir_name
 # python3 ./merge.py
-./merge.sh repos
