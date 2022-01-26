@@ -1,11 +1,12 @@
 #!/bin/bash
 
-terms=$2
+terms=$3
 file=$1
-username=$3
-hash=$4
+username=$4
+hash=$5
+index=$2
 
-if [ $# -lt 4 ]; then # -lt -> '<'
+if [ $# -lt 5 ]; then # -lt -> '<'
 	echo "Please, set up all the parameters:"
 	echo "./extract.sh filename terms username hash"
 	exit 0
@@ -22,7 +23,8 @@ fi
 
 ### search before 2015
 date='<2015-01-01'
-curl -u $username:$hash "https://api.github.com/search/repositories?q=$terms+created:$date" -o $dir"/"before_2015".json"
+curl -u $username:$hash "https://api.github.com/search/repositories?q=$terms+created:$date" -o $dir"/"$index".json"
+index=$((index+1))
 ###
 
 ### Search by Month
@@ -33,8 +35,8 @@ day=30
 while [ $year -lt 2022 ]; do # -lt -> '<'
   for month in ${months[*]}; do # search for each month
     echo $month"/"$year
-    echo "rest 30 seconds now"
-    sleep 30
+    echo "rest 10 seconds now"
+    sleep 10
 
     # determine days of the month
     if [ $month -eq 02 ]; then # -eq -> '='
@@ -59,7 +61,8 @@ while [ $year -lt 2022 ]; do # -lt -> '<'
     date=$year"-"$month"-01"..$year"-"$month"-"$day
     # per_page default : 30
     # page default: 1
-    curl -u $username:$hash "https://api.github.com/search/repositories?q=$terms+created:$date" -o $dir"/"$year"-"$month".json"
+    curl -u $username:$hash "https://api.github.com/search/repositories?q=$terms+created:$date" -o $dir"/"$index".json"
+    index=$((index+1))
   done
 
   year=$((year+1))

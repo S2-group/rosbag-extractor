@@ -23,11 +23,11 @@ fi
 date='<2022-01-01'
 ### Search repo
 echo "rosbag_experiment repos"
-curl -u $username:$hash "https://api.github.com/search/repositories?q=$terms+created:$date" -o $dir"/"repos".json"
+curl -u $username:$hash "https://api.github.com/search/repositories?q=$terms+created:$date" -o $dir"/"0".json"
 
 echo "rest 10 seconds now"
 sleep 10
 
 ### Search commit
 echo "rosbag_experiment commits"
-curl -u $username:$hash "https://api.github.com/search/commits?q=$terms+committer-date:$date&per_page=100" -o $dir"/"commits".json"
+curl -u $username:$hash "https://api.github.com/search/commits?q=$terms+committer-date:$date&per_page=100" -o $dir"/"1".json"

@@ -3,15 +3,17 @@
 
 
 ### extract repositories
-# extraction_script filename terms username hash
-#./extract_ros_repo.sh repos rosbag BerryC-VU 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
+# extraction_script filename start_result_index terms username hash
+#./extract_repo.sh repos 0 rosbag BerryC-VU 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
 
 ### extract commits
-# extraction_script filename terms username hash
-#./extract_commits.sh commits rosbag BerryC-VU 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
+# extraction_script filename start_result_index terms username hash
+#./extract_commits.sh commits 0 rosbag BerryC-VU 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
 
 ### extract rosbag_experiment related repos+commits
-./extract_ros_exp.sh ros_exp rosbag+experiment BerryC-VU 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
+#./extract_ros_exp.sh ros_exp rosbag+experiment BerryC-VU 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
 
-### merge all JSON files
-# python3 ./merge.py
+### merge all JSON files python3 ./merge.py json_path result_name
+#python3 ./merge.py data/repos merge/repos
+#python3 ./merge.py data/commits merge/commits
+python3 ./merge.py data/ros_exp merge/ros_exp

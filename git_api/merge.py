@@ -1,27 +1,30 @@
+import json
+import pandas as pd
 import os
+import sys
 
-if __name__ == '__main__':
-    path_merge = "./merge"
-    path_repos = "data/repos"
-    path_commits = "data/commits"
+json_path = sys.argv[1]
+result_path = sys.argv[2]
 
-    if not os.path.exists(path_merge):
-        os.mkdir(path_merge)
+# print(json_path)
+# print(result_path)
+# print(len(os.listdir(json_path)))
 
-    merge_repos_file = os.path.join(path_merge, "merge_repos.json")
-    with open(merge_repos_file, "w") as f0:
-        for file in os.listdir(path_repos):
-            with open(os.path.join(path_repos, file), "r") as f1:
-                for line in f1:
-                    f0.write(line)
-                f1.close()
-        f0.close()
+files = []
+for i in range(len(os.listdir(json_path))):
+    files.append(json_path + "/" + str(i) + ".json")
 
-    merge_commits_file = os.path.join(path_merge, "merge_commits.json")
-    with open(merge_commits_file, "w") as f0:
-        for file in os.listdir(path_commits):
-            with open(os.path.join(path_commits, file), "r") as f1:
-                for line in f1:
-                    f0.write(line)
-                f1.close()
-        f0.close()
+merged = []
+for i in range(len(os.listdir(json_path))):
+    with open(files[i]) as f:
+        merged.append(json.load(f)['items'])
+
+df = pd.DataFrame()
+for i in range(len(merged)):
+    df = df.append(pd.json_normalize(merged[i]))
+
+df = df[['name', 'full_name', 'html_url', 'description', 'created_at', 'updated_at', 'git_url']].reset_index(drop=True)
+
+os.makedirs('result', exist_ok=True)
+df.to_csv(result_path + ".csv")
+
