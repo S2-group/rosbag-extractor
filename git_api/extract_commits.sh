@@ -63,8 +63,8 @@ while [ $year -lt 2022 ]; do # -lt -> '<'
     # commit date between 01 - 15 of the month
     # search syntax: YYYY-MM-DD..YYYY-MM-DD
 
-    echo "rest 10 seconds here"
-    sleep 10
+    echo "rest 30 seconds here"
+    sleep 30
     ii=1  # start search from page 1
     date=$year"-"$month"-01"..$year"-"$month"-15"
     while [ $count -lt 700 ]; do
@@ -75,8 +75,8 @@ while [ $year -lt 2022 ]; do # -lt -> '<'
     done
     count=0
 
-    echo "rest 10 seconds here"
-    sleep 10
+    echo "rest 30 seconds here"
+    sleep 30
     ii=1  # start search from page 1
     date=$year"-"$month"-16"..$year"-"$month"-"$day
     while [ $count -lt 700 ]; do

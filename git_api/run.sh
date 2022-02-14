@@ -15,5 +15,5 @@
 
 ### merge all JSON files python3 ./merge.py json_path result_name
 #python3 ./merge.py data/repos merge/repos
-#python3 ./merge.py data/commits merge/commits
-python3 ./merge.py data/ros_exp merge/ros_exp
+python3 ./merge.py data/commits merge/commits
+#python3 ./merge.py data/ros_exp merge/ros_exp
