@@ -10,7 +10,7 @@ import bagpy
 from bagpy import bagreader
 import pandas as pd
 
-b = bagreader('/home/michel/Desktop/SLAM_2021-06-03-12-32-22.bag')
+b = bagreader('./test3.bag')
 
 
 b.topic_table
