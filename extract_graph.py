@@ -1,6 +1,4 @@
 # python3 extract_graph.py bagfile
-# python3 extract_graph.py SLAM_2021-06-03-12-32-22.bag
-# python3 extract_graph.py turtlesim1.bag
 
 from bagpy import bagreader
 import pandas as pd
@@ -10,7 +8,7 @@ from graphviz import Digraph
 
 
 bagfile = sys.argv[1]
-bagname = bagfile.replace('.bag','')
+bagname = bagfile.replace('.bag', '')
 b = bagreader(bagfile)
 
 # topics into dataFrame for extraction to generate graph
@@ -24,17 +22,18 @@ for t in b.topics:
     # print(data)
     csvfiles.append(data)
 
+print("Finished extracting csv files")
 # merge files and only keep needed columns
-df = pd.read_csv(bagname + '/rosout.csv')
-df2 = pd.read_csv(bagname + '/rosout_agg.csv')
-df = pd.concat([df, df2]).reset_index()
-all_info = df[['name', 'msg', 'topics']]
+rosout = pd.read_csv(bagname + '/rosout.csv')
+rosout_agg = pd.read_csv(bagname + '/rosout_agg.csv')
+rosout = pd.concat([rosout, rosout_agg]).reset_index()
+all_info = rosout[['name', 'msg', 'topics']]
 
 
 graph = Digraph(name=bagname, strict=True)
 
 # nodes
-nodes = df['name'].unique()
+nodes = rosout['name'].unique()
 for node in nodes:
     graph.node(node, node, {'shape': 'oval'})
 
@@ -44,7 +43,7 @@ for i in range(len(all_topics)):
     sub_topics += all_topics[i].split('/')[1:]
 
 for sub_topic in sub_topics:
-    if sub_topics.count(sub_topic) > 1 :
+    if sub_topics.count(sub_topic) > 1:
         substring = '/' + sub_topic
         # create clusters
         with graph.subgraph(name='cluster_' + sub_topic) as sub_topic:
@@ -88,10 +87,10 @@ for i in range(len(all_info['msg'])):
 
 # msg in rosout_agg
 # substring = "Subscribing to "
-# for i in range(len(df2['msg'])):
-#     if substring in df2['msg'].iloc[i]:
-#         publisher = df2['msg'].iloc[i].split(substring)[1]
-#         subscriber = df2['name'].iloc[i]
+# for i in range(len(rosout_agg['msg'])):
+#     if substring in rosout_agg['msg'].iloc[i]:
+#         publisher = rosout_agg['msg'].iloc[i].split(substring)[1]
+#         subscriber = rosout_agg['name'].iloc[i]
 #         graph.edge(publisher, subscriber)
 
 # add fixed node and edges
@@ -100,4 +99,5 @@ graph.edge("/rosout", "/fixed node")
 graph.edge("/fixed node", "/rosout_agg")
 
 # generate graph
-graph.view()
+graph.unflatten(stagger=3,fanout=True).view()
+# graph.view()
