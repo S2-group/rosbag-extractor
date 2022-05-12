@@ -33,9 +33,9 @@ for i in range(len(merged)):
 
 
 # converting to csv files (repo & ros_repo)
-# df = df[['name', 'full_name', 'html_url', 'description',
+# rosout = rosout[['name', 'full_name', 'html_url', 'description',
 #          'created_at', 'updated_at', 'git_url']].reset_index(drop=True)
-# df.to_csv(result_path + ".csv")
+# rosout.to_csv(result_path + ".csv")
 
 # converting to csv files (commits)
 df = df[['commit.message', 'repository.html_url']].reset_index(drop=True)

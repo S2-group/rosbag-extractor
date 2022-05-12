@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 import ast
 from graphviz import Digraph
+import os.path
 
 
 bagfile = sys.argv[1]
@@ -17,12 +18,15 @@ topics = pd.DataFrame(b.topics, columns=['Topics'])
 
 # list of csv files based on the topics
 csvfiles = []
-for t in b.topics:
+topiclist = ['/rosout', '/rosout_agg']
+for t in topiclist:
     data = b.message_by_topic(t)
-    # print(data)
     csvfiles.append(data)
 
 print("Finished extracting csv files")
+
+# # if no rosout file is present
+# if not os.path.exists(bagname + '/rosout.csv'):
 # merge files and only keep needed columns
 rosout = pd.read_csv(bagname + '/rosout.csv')
 rosout_agg = pd.read_csv(bagname + '/rosout_agg.csv')
@@ -32,13 +36,14 @@ all_info = rosout[['name', 'msg', 'topics']]
 
 graph = Digraph(name=bagname, strict=True)
 
-# nodes
-nodes = rosout['name'].unique()
-for node in nodes:
-    graph.node(node, node, {'shape': 'oval'})
-
 all_topics = topics['Topics'].values.tolist()
 sub_topics = []
+# topics
+topics = topics['Topics'].values.tolist()
+for topic in topics:
+    if topic not in graph:
+        graph.node(topic, topic, {'shape': 'rectangle'})
+
 for i in range(len(all_topics)):
     sub_topics += all_topics[i].split('/')[1:]
 
@@ -52,18 +57,19 @@ for sub_topic in sub_topics:
                     sub_topic.node(topic, topic, {'shape': 'rectangle'})
             sub_topic.attr(label=substring)
 
-# topics
-topics = topics['Topics'].values.tolist()
-for topic in topics:
-    if topic not in graph:
-        graph.node(topic, topic, {'shape': 'rectangle'})
+
+# nodes
+nodes = rosout['name'].unique()
+for node in nodes:
+    graph.node(node, node, {'shape': 'oval'})
 
 # merge subscribers for each node
 edge_info = pd.DataFrame(data={'name': nodes}, columns=['name', 'topics'])
-list_of_topics = []
 for i in range(len(nodes)):
+    list_of_topics = []
     for j in range(len(all_info)):
         # merge topics with the same node name
+        # print(all_info['name'][j])
         if all_info['name'][j] == nodes[i]:
             # evaluate string as list and merge them into one list
             list_of_topics += ast.literal_eval(all_info['topics'][j])
@@ -79,19 +85,12 @@ for i in range(len(nodes)):
 
 # msg in both rosout and rosout_agg
 substring = "Subscribing to "
-for i in range(len(all_info['msg'])):
-    if substring in all_info['msg'].iloc[i]:
-        publisher = all_info['msg'].iloc[i].split(substring)[1]
+valid_msg = all_info['msg'].dropna()
+for i in range(len(valid_msg)):
+    if substring in valid_msg.iloc[i]:
+        publisher = valid_msg.iloc[i].split(substring)[1]
         subscriber = all_info['name'].iloc[i]
         graph.edge(publisher, subscriber)
-
-# msg in rosout_agg
-# substring = "Subscribing to "
-# for i in range(len(rosout_agg['msg'])):
-#     if substring in rosout_agg['msg'].iloc[i]:
-#         publisher = rosout_agg['msg'].iloc[i].split(substring)[1]
-#         subscriber = rosout_agg['name'].iloc[i]
-#         graph.edge(publisher, subscriber)
 
 # add fixed node and edges
 graph.node("/fixed node", "/rosout", {'shape': 'oval'})
