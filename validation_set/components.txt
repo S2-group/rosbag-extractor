@@ -1,0 +1,5 @@
+valiation set
+- local recorded bags (turtlesiim)
+- local recorded bags (Gazebo)
+- peers' work
+- MET dataset
