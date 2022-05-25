@@ -9,11 +9,13 @@ The project consists of 3 phases：
 2. Extracting information from ROS bags
 3. Validation
 
+
 ## ROS in general
 ROS documentation: http://wiki.ros.org
 ROS tutorials : http://wiki.ros.org/ROS/Tutorials
 
 There are 2 common used instructions in this project, namely [rosbag record] (http://wiki.ros.org/rosbag/Commandline) and [rqt_graph](http://wiki.ros.org/rqt_graph)
+
 
 ## Extracting information from ROS bags
 By using python and its package [bagpy](https://jmscslgroup.github.io/bagpy/), messages stored in the bagfiles can be read and decoded. 
@@ -26,7 +28,7 @@ By using python and its package [bagpy](https://jmscslgroup.github.io/bagpy/), m
 By applying our static approach to the 242 bagfiles obtained from GitHub, it is found that most bagfiles can be extracted without any problem. Also, problems occurred within 49 bags where the main node `/rosout` is not recorded in the bag.  
 
 Extraction result: Full list can be found [here](https://drive.google.com/file/d/16UHFbm1s-yIXtfGYNJD7NTrwlfN8zlXg/view)
-<img src="extraction_result.png" width="300" align="center" alt="Extraction results">
+<img src="extraction_result.png" width="600" align="center" alt="Extraction results">
 
 
 <!-- ## Requirements
