@@ -11,7 +11,7 @@ The project consists of 3 phases：
 
 To run the extraction script: 
 ```
-python3 extract_graph /path/file
+python3 extract_graph.py /path/file
 ```
 
 ## ROS in general
