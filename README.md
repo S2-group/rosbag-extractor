@@ -10,9 +10,9 @@ The project consists of 3 phases：
 3. Validation
 
 To run the extraction script: 
-、、、
+```
 python3 extract_graph /path/file
-、、、
+```
 
 ## ROS in general
 ROS documentation: http://wiki.ros.org
