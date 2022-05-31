@@ -42,7 +42,7 @@ The expected result is the following image:
 ## Public Bagfiles
 
 - In [this](https://drive.google.com/drive/folders/1HwNHiVZJhChzVv4ZwMy9yN5gWYnwAsSi?usp=sharing) shared folder, you will find some bagfiles from our team experiments with ROS+SLAM.
-- We have also used the [MET dataset](https://starslab.ca/enav-planetary-dataset/) dataset for our tool validation. It contains huge bagfiles from a rover robot navigation.
+- We have also used the [MET dataset](https://starslab.ca/enav-planetary-dataset/) for our tool validation. It contains huge bagfiles from a rover robot navigation.
 - [This](#) spreadsheet contains all the public bagfiles we found on GitHub. 
 
 ---
