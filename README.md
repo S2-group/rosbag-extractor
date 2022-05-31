@@ -7,9 +7,9 @@ In this project, we aim to design an architecture extractor with information fro
 This repository is organized as following:
 
 ```
-       docker/                       - Contains the Dockerfile for an with a ROS basic installation.
-  src/git_api/                       - Contains the code used to crawl GitHub repositories (no documentation on this).
-src/extractor/                       - Contains the source code of the architecture extractor.
+       docker/    - Contains the Dockerfile for an with a ROS basic installation.
+  src/git_api/    - Contains the code used to crawl GitHub repositories (no documentation on this).
+src/extractor/    - Contains the source code of the architecture extractor.
 ```
 
 Before starting, if you want to check a dynamic extraction ([rqt_graph](http://wiki.ros.org/rqt_graph)), it is necessary to create the Docker image:
