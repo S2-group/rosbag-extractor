@@ -2,12 +2,14 @@
 
 <!-- The project is based on ROS, the standard framework for implementing robotics software today. A tool-based approach is developed that, given as input a ROS bag, will automatically extract its software components (in terms of blocks, connections, and topics).  -->
 
-In this project, we aim to design an architecture extractor with the existing information acquired from rosbags, which records the topic commands sent to the robot in a previous execution. Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool, which are not trivial to be executed since they require a running ROS environment. Then, our approach’s output is compared to the output of a dynamic execution with rqt graph tool over 242 bag files public available in GitHub. As a result, about 202 bagfiles’ architectures can be extracted correctly, where the extractor cannot performed properly on the rest of bagfiles due to the lack of information while recording.
+In this project, we aim to design an architecture extractor with information from [rosbags](http://wiki.ros.org/rosbag) (they basically record topics commands sent to the robot in a previous execution). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool, which are not trivial to be executed since they require a running ROS environment. 
 
-The project consists of 3 phases：
-1. ROS in general
-2. Extracting information from ROS bags
-3. Validation
+This repository is organized as following:
+
+```
+docker/
+...
+```
 
 To run the extraction script: 
 ```
