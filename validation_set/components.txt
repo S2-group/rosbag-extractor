@@ -1,6 +1,0 @@
-valiation set
-- local recorded bags
-- peers' work
-  -> Bagfiles can be found via the following link： 
-    https://drive.google.com/drive/folders/1HwNHiVZJhChzVv4ZwMy9yN5gWYnwAsSi?usp=sharing 
-- MET dataset: https://starslab.ca/enav-planetary-dataset/
