@@ -1,4 +1,4 @@
-# rosbag_project
+# Extracting ROS Communication Architecture Reconfiguration From ROS Bag Files
 
 <!-- The project is based on ROS, the standard framework for implementing robotics software today. A tool-based approach is developed that, given as input a ROS bag, will automatically extract its software components (in terms of blocks, connections, and topics).  -->
 
