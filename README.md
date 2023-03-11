@@ -15,8 +15,6 @@ In this project, we aim to statically extract time-windowed architectural inform
 ```
 src/git_api/       - Contains the code used and documentation to crawl GitHub repositories.
 src/extractor/     - Contains the source code and documentation of the architecture extractor.
-./rosbags.csv      - Spreadsheet containing the link to all the ROS bags we found.
-./bag_repositories - Spreadsheet containing all the repositories with the term 'rosbag'.
 ```
 
 ## Instalation
@@ -32,14 +30,14 @@ Then, just run the extraction script on a bagfile:
 python3 extract_graph.py /path/file
 ```
 
-Here, we provide and example with a very simple file:
+Here, we provide and example with a very simple file **[argument time]**:
 ```
 python3 src/extract_graph.py ./turtlesim.bag
 ```
 
 The expected result is the following image:
 
-<img src="./screenshot.png" alt="Extracted Graph: Turtlesim" style="height: 100px; width:100px;"/>
+<img src="./screenshot.png" alt="Extracted Graph: Turtlesim" style="height: 350px; width:350px;"/>
 
 ## Public Bagfiles
 
