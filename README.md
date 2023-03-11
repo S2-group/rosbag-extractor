@@ -38,7 +38,7 @@ python3 src/extract_graph.py ./turtlesim.bag
 The expected result is the following image:
 
 <img src="./screenshot.png" alt="Extracted Graph: Turtlesim" style="height: 350px; width:350px;"/>
-
+<!--
 ## Public Bagfiles
 
 - In [this](https://drive.google.com/drive/folders/1HwNHiVZJhChzVv4ZwMy9yN5gWYnwAsSi?usp=sharing) shared folder, you will find some bagfiles from our team experiments with ROS+SLAM.
@@ -51,7 +51,7 @@ By using python and its package [bagpy](https://jmscslgroup.github.io/bagpy/), m
 ## Validation
 Comparing to the dynamic approach(rqt_graph), our static approach workds totally independent on ROS environment. Validation process are done by manually checking the graphs of each bagfiles in the validation set and compare the differences between two approaches' graphs.
 
-
+-->
 
 <!--## Result
 By applying our static approach to the 242 bagfiles obtained from GitHub, it is found that most bagfiles can be extracted without any problem. Also, problems occurred within 49 bags where the main node `/rosout` is not recorded in the bag.  
