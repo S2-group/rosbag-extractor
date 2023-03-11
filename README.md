@@ -30,7 +30,7 @@ Then, just run the extraction script on a bagfile:
 python3 extract_graph.py /path/file
 ```
 
-Here, we provide and example with a very simple file **[argument time]**:
+Here, we provide and example with a very simple file **[argument time/misses bag]**:
 ```
 python3 src/extract_graph.py ./turtlesim.bag
 ```
