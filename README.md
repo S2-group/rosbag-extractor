@@ -1,8 +1,14 @@
 # Extracting ROS Communication Architecture Reconfiguration From ROS Bag Files
 
-<!-- The project is based on ROS, the standard framework for implementing robotics software today. A tool-based approach is developed that, given as input a ROS bag, will automatically extract its software components (in terms of blocks, connections, and topics).  -->
+This repository contains the replication package and dataset of the paper submitted to RobotSoftwareArchitecture@ICRA 2023.
 
-In this project, we aim to design an architecture extractor with information from [rosbags](http://wiki.ros.org/rosbag) (they basically record topics commands sent to the robot in a previous execution). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool, which are not trivial to be executed since they require a running ROS environment. 
+This study has been designed, developed, and reported by the following investigators:
+
+- [Michel Albonico](https://www.ivanomalavolta.com) (Vrije Universiteit Amsterdam)
+- [Berry Chen](https://resources.sei.cmu.edu/library/author.cfm?authorID=4347) (Software Engineering Institute, Carnegie Mellon University)
+- [Ivano Malavolta](http://www.cs.cmu.edu/~schmerl/) (Institute for Software Research, Carnegie Mellon University)
+
+In this project, we aim to extract time-windowed architectural information from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool, which are not trivial to be executed since they require a running ROS environment. 
 
 This repository is organized as following:
 
