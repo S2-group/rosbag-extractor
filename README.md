@@ -25,7 +25,7 @@ $ pip install -r ./requirements.txt
 $ sudo apt install graphviz
 ```
 
-Then, just run the extraction script on a bagfile: 
+Then, just run the extraction script on a bagfile **[Misses Frequency]**: 
 ```
 python3 extract_graph.py /path/file
 ```
