@@ -38,7 +38,8 @@ python3 src/extract_graph.py ./turtlesim.bag
 ```
 
 The expected result is the following image:
-![extracted architecture](screenshot.png "TurtleSim Computation Graph")
+
+<img src="./screenshot.png" alt="Extracted Graph: Turtlesim" style="height: 100px; width:100px;"/>
 
 ## Public Bagfiles
 
