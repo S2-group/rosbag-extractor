@@ -17,7 +17,7 @@ src/git_api/       - Contains the code used and documentation to crawl GitHub re
 src/extractor/     - Contains the source code and documentation of the architecture extractor.
 ```
 
-## Instalation
+## Installation
 Note that it is not necessary for our architecture extractor, which is independent of platforms. However, it requires a few dependencies, solved by the following commands:
 
 ```
