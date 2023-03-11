@@ -8,9 +8,9 @@ This study has been designed, developed, and reported by the following investiga
 - [Berry Chen](#) (Student@Vrije Universiteit Amsterdam)
 - [Ivano Malavolta](https://www.ivanomalavolta.com) (Vrije Universiteit Amsterdam)
 
-In this project, we aim to extract time-windowed architectural information from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool, which are not trivial to be executed since they require a running ROS environment. 
+In this project, we aim to statically extract time-windowed architectural information from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool.
 
-This repository is organized as following:
+**Repository organization:**
 
 ```
        docker/    - Contains the Dockerfile for an with a ROS basic installation.
