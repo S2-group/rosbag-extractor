@@ -4,9 +4,9 @@ This repository contains the replication package and dataset of the paper submit
 
 This study has been designed, developed, and reported by the following investigators:
 
-- [Michel Albonico](https://www.ivanomalavolta.com) (Vrije Universiteit Amsterdam)
-- [Berry Chen](https://resources.sei.cmu.edu/library/author.cfm?authorID=4347) (Software Engineering Institute, Carnegie Mellon University)
-- [Ivano Malavolta](http://www.cs.cmu.edu/~schmerl/) (Institute for Software Research, Carnegie Mellon University)
+- [Michel Albonico](https://michelalbonico.github.io/) (Federal University of Technology, Paraná - UTFPR)
+- [Berry Chen](#) (Student@Vrije Universiteit Amsterdam)
+- [Ivano Malavolta](https://www.ivanomalavolta.com) (Vrije Universiteit Amsterdam)
 
 In this project, we aim to extract time-windowed architectural information from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool, which are not trivial to be executed since they require a running ROS environment. 
 
