@@ -38,7 +38,7 @@ Here, we provide and example with a very simple ROS 2 bag file:
 
 The expected result is the following image:
 
-<img src="./screenshot.png" alt="Extracted Graph: Turtlesim" style="height: 350px; width:350px;"/>
+<img src="./screenshot.png" alt="Extracted Graph: Turtlesim"/>
 <!--
 ## Public Bagfiles
 
