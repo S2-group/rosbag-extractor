@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "Qual é a versão do driver que você deseja instalar?"
-echo "Veja os 7 primeiros números da versão do seu navegador e visite https://chromedriver.chromium.org/downloads."
+echo "Which is the driver version that you want to install?"
+echo "Get the 7 numbers at the beginning of your Chrome browser version and check at https://chromedriver.chromium.org/downloads."
 read VERSION
-echo "Você selecionou a versão "$VERSION
+echo "You have selected the version "$VERSION
 rm driver
 mkdir driver
 cd driver
