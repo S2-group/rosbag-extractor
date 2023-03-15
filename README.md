@@ -21,9 +21,8 @@ src/extractor/     - Contains the source code and documentation of the architect
 Note that it is not necessary for our architecture extractor, which is independent of platforms. However, it requires a few dependencies, solved by the following commands:
 
 ```
-$ pip install -r ./requirements.txt
+$ pip3 install -r ./requirements.txt
 $ sudo apt install graphviz
-pip install rosbags
 ```
 
 Then, just run the extraction script on a bagfile: 
