@@ -23,6 +23,7 @@ Note that it is not necessary for our architecture extractor, which is independe
 ```
 $ pip install -r ./requirements.txt
 $ sudo apt install graphviz
+pip install rosbags
 ```
 
 Then, just run the extraction script on a bagfile: 
