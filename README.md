@@ -25,14 +25,15 @@ $ pip install -r ./requirements.txt
 $ sudo apt install graphviz
 ```
 
-Then, just run the extraction script on a bagfile **[Misses Frequency]**: 
+Then, just run the extraction script on a bagfile: 
 ```
-python3 extract_graph.py /path/file
+./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
 ```
 
-Here, we provide and example with a very simple file **[argument time/misses bag]**:
+Here, we provide and example with a very simple ROS 2 bag file:
 ```
-python3 src/extract_graph.py ./turtlesim.bag
+./extractor.sh ros2 '2022-06-02 08:50:06' '2022-06-02 09:01:20'
+./src/extractor/ros2/rosbag2_2022_06_02-08_49_23
 ```
 
 The expected result is the following image:
