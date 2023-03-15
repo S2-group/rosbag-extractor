@@ -39,6 +39,25 @@ Here, we provide and example with a very simple ROS 2 bag file:
 The expected result is the following image:
 
 <img src="./screenshot.png" alt="Extracted Graph: Turtlesim"/>
+
+# Improvements
+
+## TODO
+
+- [ ] Pass time argument in minutes or seconds (e.g., 1-3) instead of the precise date and time.
+- [ ] Command to see how long (in terms of seconds/minutes) the bag is.
+- [ ] Slice the file according to a fixed interval (e.g., each 10 seconds), generating different sequential graphs.
+- [ ] Grab nodes information from launch files and source code.
+- [ ] Integrate with RQT Graph tool.
+
+## In Progress
+
+- [ ] ...
+
+## Done ✓
+
+- [ ] ... 
+
 <!--
 ## Public Bagfiles
 
