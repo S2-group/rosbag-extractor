@@ -1,4 +1,4 @@
-# Extracting ROS Communication Architecture Reconfiguration From ROS Bag Files
+# Automatic Extraction of Time-windowed ROS Computation Graphs from ROS Bag Files
 
 This repository contains the replication package and dataset of the paper submitted to RobotSoftwareArchitecture@ICRA 2023.
 
@@ -13,32 +13,57 @@ In this project, we aim to statically extract time-windowed architectural inform
 ## Repository Organization
 
 ```
-src/git_api/       - Contains the code used and documentation to crawl GitHub repositories.
-src/extractor/     - Contains the source code and documentation of the architecture extractor.
+./bagfiles/          - Contains samples of bag files and a list of all we found on GitHub.
+./src/git_api/       - Contains the code used and documentation to crawl GitHub repositories.
+./src/extractor/     - Contains the source code and documentation of the architecture extractor.
 ```
 
 ## Installation
 Note that it is not necessary for our architecture extractor, which is independent of platforms. However, it requires a few dependencies, solved by the following commands:
 
 ```
-$ pip install -r ./requirements.txt
+$ pip3 install -r ./requirements.txt
 $ sudo apt install graphviz
 ```
+If the requirements list is/becomes broken, do not hesitate to pull request the necessary updates.
 
 Then, just run the extraction script on a bagfile: 
 ```
-./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
+$ ./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
 ```
+
+##### Example
 
 Here, we provide and example with a very simple ROS 2 bag file:
 ```
-./extractor.sh ros2 '2022-06-02 08:50:06' '2022-06-02 09:01:20'
-./src/extractor/ros2/rosbag2_2022_06_02-08_49_23
+$ export root_dir='your project dir'
+$ ./extractor.sh ros2 "2022-06-02 03:50:06" "2022-06-02 04:01:20" $root_dir/bagfiles/ros2/rosbag2_2022_06_02-08_49_23/
 ```
 
-The expected result is the following image:
+The expected result is the following image, which will be in the rosbag file directory:
 
 <img src="./screenshot.png" alt="Extracted Graph: Turtlesim"/>
+
+# Improvements
+
+## TODO
+
+- [ ] If no datetime parameter is passed, generate the graph of the whole bag.
+- [ ] Pass time argument in minutes or seconds (e.g., 1-3) instead of the precise date and time.
+- [ ] Organize the generated graphs in a different folder than ros bag one.
+- [ ] Command to see how long (in terms of seconds/minutes) the bag is.
+- [ ] Slice the file according to a fixed interval (e.g., each 10 seconds), generating different sequential graphs.
+- [ ] Grab nodes information from launch files and source code.
+- [ ] Integrate with RQT Graph tool.
+
+## In Progress
+
+- [ ] ...
+
+## Done ✓
+
+- [ ] ... 
+
 <!--
 ## Public Bagfiles
 
