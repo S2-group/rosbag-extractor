@@ -1,0 +1,16 @@
+strict digraph ros2_extraction {
+	graph [rankdir=LR];
+	"/_ros2cli_rosbag2"	[label="/_ros2cli_rosbag2"];
+	"/amcl_pose/in_world"	[label="/amcl_pose/in_world",
+		shape=rectangle,
+		xlabel="0.39Hz"];
+	"/_ros2cli_rosbag2" -> "/amcl_pose/in_world"	[minlen=1];
+	"/pans/pose"	[label="/pans/pose",
+		shape=rectangle,
+		xlabel="10.02Hz"];
+	"/_ros2cli_rosbag2" -> "/pans/pose"	[minlen=2];
+	"/rloc_pose"	[label="/rloc_pose",
+		shape=rectangle,
+		xlabel="147.69Hz"];
+	"/_ros2cli_rosbag2" -> "/rloc_pose"	[minlen=3];
+}
