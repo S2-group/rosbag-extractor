@@ -1,4 +1,4 @@
-# Extracting ROS Communication Architecture Reconfiguration From ROS Bag Files
+# Automatic Extraction of Time-windowed ROS Computation Graphs from ROS Bag Files
 
 This repository contains the replication package and dataset of the paper submitted to RobotSoftwareArchitecture@ICRA 2023.
 
@@ -13,8 +13,9 @@ In this project, we aim to statically extract time-windowed architectural inform
 ## Repository Organization
 
 ```
-src/git_api/       - Contains the code used and documentation to crawl GitHub repositories.
-src/extractor/     - Contains the source code and documentation of the architecture extractor.
+./bagfiles/          - Contains samples of bag files and a list of all we found on GitHub.
+./src/git_api/       - Contains the code used and documentation to crawl GitHub repositories.
+./src/extractor/     - Contains the source code and documentation of the architecture extractor.
 ```
 
 ## Installation
@@ -28,8 +29,10 @@ If the requirements list is/becomes broken, do not hesitate to pull request the 
 
 Then, just run the extraction script on a bagfile: 
 ```
-./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
+$ ./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
 ```
+
+##### Example
 
 Here, we provide and example with a very simple ROS 2 bag file:
 ```
