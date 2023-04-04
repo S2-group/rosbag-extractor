@@ -24,6 +24,7 @@ Note that it is not necessary for our architecture extractor, which is independe
 $ pip3 install -r ./requirements.txt
 $ sudo apt install graphviz
 ```
+If the requirements list is/becomes broken, do not hesitate to pull request the necessary updates.
 
 Then, just run the extraction script on a bagfile: 
 ```
