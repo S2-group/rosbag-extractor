@@ -32,8 +32,8 @@ Then, just run the extraction script on a bagfile:
 
 Here, we provide and example with a very simple ROS 2 bag file:
 ```
-export root_dir='your project dir'
-./extractor.sh ros2 "2022-06-02 03:50:06" "2022-06-02 04:01:20" $root_dir/bagfiles/ros2/rosbag2_2022_06_02-08_49_23/
+$ export root_dir='your project dir'
+$ ./extractor.sh ros2 "2022-06-02 03:50:06" "2022-06-02 04:01:20" $root_dir/bagfiles/ros2/rosbag2_2022_06_02-08_49_23/
 ```
 
 The expected result is the following image, which will be in the rosbag file directory:
