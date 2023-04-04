@@ -33,8 +33,9 @@ Then, just run the extraction script on a bagfile:
 Here, we provide and example with a very simple ROS 2 bag file:
 ```
 ./extractor.sh ros2 '2022-06-02 08:50:06' '2022-06-02 09:01:20'
-./src/extractor/ros2/rosbag2_2022_06_02-08_49_23
+./rosbag2_2022_06_02-08_49_23
 ```
+Note that in the current version, the last parameter (the bag file) must be in the **./src/extractor/ros2/** folder.
 
 The expected result is the following image:
 
@@ -45,6 +46,7 @@ The expected result is the following image:
 ## TODO
 
 - [ ] Pass time argument in minutes or seconds (e.g., 1-3) instead of the precise date and time.
+- [ ] Pass the absolute path of the file.
 - [ ] Command to see how long (in terms of seconds/minutes) the bag is.
 - [ ] Slice the file according to a fixed interval (e.g., each 10 seconds), generating different sequential graphs.
 - [ ] Grab nodes information from launch files and source code.
