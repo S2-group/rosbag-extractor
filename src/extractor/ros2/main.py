@@ -1,10 +1,9 @@
 
-import ros1_extract
-import ros2_extract
+#import ros1_extract
 import sys
 from datetime import datetime
 from rosbags.rosbag2 import Reader
-
+import ros2_extract
 
 def date_to_datetime(time):
     return datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
@@ -27,6 +26,9 @@ def main():
         try:
             if date_to_datetime(start) < bag_start or date_to_datetime(start) > bag_end:
                 print("Please input a valid start time.")
+                print("Current start_time: ", date_to_datetime(start))
+                print("Bag file start_time: ", bag_start)
+                print("Bag file end_time: ", bag_end)
                 sys.exit()
             else:
                 start_t = date_to_datetime(start)

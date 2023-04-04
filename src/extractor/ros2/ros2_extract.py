@@ -6,11 +6,9 @@ import group_topic
 import os
 from datetime import datetime
 
-
 def get_file_path(bagfolder, topic):
     return bagfolder + "/" + topic.replace("/", "-")[1:] + ".csv"
-
-
+    
 def get_msg_and_info(reader, connections, topic):
     stamps = []
     df = pd.DataFrame()
@@ -20,7 +18,6 @@ def get_msg_and_info(reader, connections, topic):
     df = pd.concat([df, data], ignore_index=True)
 
     return df
-
 
 def generate_topics(bagfolder, graph, topics):
     for topic in topics:
@@ -37,7 +34,6 @@ def generate_topics(bagfolder, graph, topics):
             # graph.node(topic, topic, {'shape': 'rectangle'})
     group_topic.main(graph, topics)
 
-
 def _median(values):
     values_len = len(values)
     if values_len == 0:
@@ -50,13 +46,11 @@ def _median(values):
     upper = sorted_values[int(values_len / 2)]
     return float(lower+upper) / 2
 
-
 def generate_edges(graph, topics):
     for topic in topics:
         if topic == '/parameter_events':
             graph.edge('/parameter_events', '/_ros2cli_rosbag2')
         graph.edge('/_ros2cli_rosbag2', topic)
-
 
 def create_graph(bagfolder, graph, topics):
     generate_topics(bagfolder, graph, topics)
@@ -64,13 +58,11 @@ def create_graph(bagfolder, graph, topics):
 
     generate_edges(graph, topics)
 
-
 def get_freq(stamps):
     period = [s1 - s0 for s1, s0 in zip(stamps[1:], stamps[:-1])]
     med_period = _median(period)
     med_freq = round((1.0 / med_period), 2)
     return med_freq
-
 
 def get_mean_freq(stamps):
     n_messages = len(stamps)
@@ -80,7 +72,6 @@ def get_mean_freq(stamps):
     else:
         mean_freq = round((float(n_messages) / total_time), 2)
     return mean_freq
-
 
 def main(bagfolder, start_t, end_t):
     graph = Digraph(directory=bagfolder+'/', name='ros2_extraction', strict=True)
@@ -98,7 +89,7 @@ def main(bagfolder, start_t, end_t):
 
             if os.path.exists(file_path):
                 os.remove(file_path)
-                topic_info.to_csv(file_path)
+            topic_info.to_csv(file_path)
 
             if len(topic_info['Stamps'].head(1).values) != 0 and len(topic_info['Stamps'].tail(1).values) != 0:
                 data = pd.DataFrame({'topics': topic,

@@ -1,0 +1,12 @@
+strict digraph ros2_extraction {
+	graph [rankdir=LR];
+	"/_ros2cli_rosbag2"	[label="/_ros2cli_rosbag2"];
+	"/topic"	[label="/topic",
+		shape=rectangle,
+		xlabel="2.0Hz"];
+	"/_ros2cli_rosbag2" -> "/topic"	[minlen=1];
+	"/rosout"	[label="/rosout",
+		shape=rectangle,
+		xlabel="2.0Hz"];
+	"/_ros2cli_rosbag2" -> "/rosout"	[minlen=2];
+}

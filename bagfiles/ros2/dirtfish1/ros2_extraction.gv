@@ -1,0 +1,30 @@
+strict digraph ros2_extraction {
+	graph [rankdir=LR];
+	subgraph "cluster_/gazebo" {
+		graph [color=grey,
+			label="/gazebo"
+		];
+		node [shape=rectangle];
+		"/gazebo/cmd_vel"	[label="/gazebo/cmd_vel",
+			shape=rectangle,
+			xlabel="29.44Hz"];
+		"/gazebo/odom"	[label="/gazebo/odom",
+			shape=rectangle,
+			xlabel="98.11Hz"];
+	}
+	"/_ros2cli_rosbag2"	[label="/_ros2cli_rosbag2"];
+	"/clock"	[label="/clock",
+		shape=rectangle,
+		xlabel="9.94Hz"];
+	"/_ros2cli_rosbag2" -> "/clock"	[minlen=1];
+	"/cones/positions"	[label="/cones/positions",
+		shape=rectangle,
+		xlabel="29.59Hz"];
+	"/_ros2cli_rosbag2" -> "/cones/positions"	[minlen=2];
+	"/_ros2cli_rosbag2" -> "/gazebo/cmd_vel"	[minlen=3];
+	"/_ros2cli_rosbag2" -> "/gazebo/odom"	[minlen=4];
+	"/rosout"	[label="/rosout",
+		shape=rectangle,
+		xlabel=nan];
+	"/_ros2cli_rosbag2" -> "/rosout"	[minlen=5];
+}
