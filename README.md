@@ -8,7 +8,17 @@ This study has been designed, developed, and reported by the following investiga
 - [Berry Chen](#) (Student@Vrije Universiteit Amsterdam)
 - [Ivano Malavolta](https://www.ivanomalavolta.com) (Vrije Universiteit Amsterdam)
 
-In this project, we aim to statically extract time-windowed architectural information from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool.
+In this project, we aim to statically extract time-windowed computation graph from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool.
+
+## The Approach
+The following figure illustrates the 3-phases approach to extract the time-windowed computation graphs from the ROS bag files: 
+
+* ***Rosbag Extraction***: in this phase, we read the ROS bag content data and store it in a tabular format (CSV file), which is broadly used for data conversion and analysis. Both, ROS 1 and ROS 2 bag formats are supported.
+* ***Time-window Slicing***: in this phase, we select only the computation graph components within a time interval (time-window passed as a parameter), which benefits from the data that is already tabulated in the CSV file from phase 1
+* ***Computation Graph Building***: finally, in this phase, we generate a computation graph compatible with RQT, 
+which is a standard among ROS community.
+
+<img src="./rosbag_extractor.png" alt="Extracted Graph: Minimal Publisher" width="350" height="350"/>
 
 ## Repository Organization
 
@@ -37,12 +47,12 @@ $ ./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
 Here, we provide and example with a very simple ROS 2 bag file:
 ```
 $ export root_dir='your project dir'
-$ ./extractor.sh ros2 "2022-06-02 03:50:06" "2022-06-02 04:01:20" $root_dir/bagfiles/ros2/rosbag2_2022_06_02-08_49_23/
+$ ./extractor.sh ros2 "2020-02-04 07:23:55" "2020-02-04 07:23:59" $root_dir/bagfiles/ros2/talker/
 ```
 
 The expected result is the following image, which will be in the rosbag file directory:
 
-<img src="./screenshot.png" alt="Extracted Graph: Turtlesim"/>
+<img src="./ros2_extraction.png" alt="Extracted Graph: Minimal Publisher" width="350"/>
 
 # Improvements
 
