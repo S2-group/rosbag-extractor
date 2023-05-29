@@ -60,21 +60,24 @@ The expected result is the following image, which will be in the rosbag file dir
 
 ## TODO
 
+- [ ] Add support for ROS services via the new service introspection feature provided by the Iron Irwini distribution.
+- [ ] Integrate other static analyzers like [HAROS](https://github.com/git-afsantos/haros) to complement the extracted architecture with additional information. 
 - [ ] If no datetime parameter is passed, generate the graph of the whole bag.
-- [ ] Pass time argument in minutes or seconds (e.g., 1-3) instead of the precise date and time.
+- [ ] Pass time argument in seconds instead of the precise date and time.
 - [ ] Organize the generated graphs in a different folder than ros bag one.
-- [ ] Command to see how long (in terms of seconds/minutes) the bag is.
+- [ ] Command to see how long (in terms of seconds) the bag is.
 - [ ] Slice the file according to a fixed interval (e.g., each 10 seconds), generating different sequential graphs.
 - [ ] Grab nodes information from launch files and source code.
 - [ ] Integrate with RQT Graph tool.
 
 ## In Progress
 
-- [ ] ...
+- [ ] Code polishing and general updates
 
 ## Done ✓
 
-- [ ]  
+- [x] Compute additional metrics for each connection (e.g., publishing rate)
+- [x] Add support for rosbag2 files  
 
 <!--
 ## Public Bagfiles
