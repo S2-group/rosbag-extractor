@@ -1,6 +1,8 @@
 # Automatic Extraction of Time-windowed ROS Computation Graphs from ROS Bag Files
 
-This repository contains the replication package and dataset of the paper submitted to RobotSoftwareArchitecture@ICRA 2023.
+This repository contains the replication package and dataset of our poster presented at the  Robot Software Architecture workshop ([RSA 2023](https://roboticsa.github.io/RoboticSA2023/)) co-located with the International Conference on Robotics and Automation [ICRA 2023](https://www.icra2023.org).
+
+A two-pager about this project is available on Arxiv [here](https://arxiv.org/abs/2305.16405)
 
 This study has been designed, developed, and reported by the following investigators:
 
@@ -8,7 +10,7 @@ This study has been designed, developed, and reported by the following investiga
 - [Berry Chen](#) (Student@Vrije Universiteit Amsterdam)
 - [Ivano Malavolta](https://www.ivanomalavolta.com) (Vrije Universiteit Amsterdam)
 
-In this project, we aim to statically extract time-windowed computation graph from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as native [rqt_graph](http://wiki.ros.org/rqt_graph) tool.
+This project is about a tool to statically extract time-windowed computation graphs from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as the [rqt_graph](http://wiki.ros.org/rqt_graph) tool.
 
 ## The Approach
 The following figure illustrates the 3-phases approach to extract the time-windowed computation graphs from the ROS bag files: 
@@ -18,7 +20,7 @@ The following figure illustrates the 3-phases approach to extract the time-windo
 * ***Computation Graph Building***: finally, in this phase, we generate a computation graph compatible with RQT, 
 which is a standard among ROS community.
 
-<img src="./rosbag_extractor-hd.png" alt="Extracted Graph: Minimal Publisher" width="350" height="350"/>
+<center><img src="./rosbag_extractor-hd.png" alt="Extracted Graph: Minimal Publisher" width="350" height="350"/></center>
 
 ## Repository Organization
 
@@ -72,7 +74,7 @@ The expected result is the following image, which will be in the rosbag file dir
 
 ## Done ✓
 
-- [ ] ... 
+- [ ]  
 
 <!--
 ## Public Bagfiles
