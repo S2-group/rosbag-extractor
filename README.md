@@ -20,7 +20,7 @@ The following figure illustrates the 3-phases approach to extract the time-windo
 * ***Computation Graph Building***: finally, in this phase, we generate a computation graph compatible with RQT, 
 which is a standard among ROS community.
 
-<center><img src="./rosbag_extractor-hd.png" alt="Extracted Graph: Minimal Publisher" width="350" height="350"/></center>
+<p align="center"><img src="./rosbag_extractor-hd.png" alt="Extracted Graph: Minimal Publisher" width="350" height="350"/></center></p>
 
 ## Repository Organization
 
