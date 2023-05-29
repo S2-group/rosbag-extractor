@@ -2,7 +2,7 @@
 
 This repository contains the replication package and dataset of our poster presented at the  Robot Software Architecture workshop ([RSA 2023](https://roboticsa.github.io/RoboticSA2023/)) co-located with the International Conference on Robotics and Automation [ICRA 2023](https://www.icra2023.org).
 
-A two-pager about this project is available on Arxiv [here](https://arxiv.org/abs/2305.16405)
+A two-pager about this project is available on Arxiv [here](https://arxiv.org/abs/2305.16405).
 
 This study has been designed, developed, and reported by the following investigators:
 
