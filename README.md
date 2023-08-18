@@ -39,7 +39,7 @@ $ sudo apt install graphviz
 ```
 If the requirements list is/becomes broken, do not hesitate to pull request the necessary updates.
 
-Then, just run the extraction script on a bagfile: 
+Then, just run the extraction script on a bag file: 
 ```
 $ ./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
 ```
@@ -58,4 +58,4 @@ The expected result is the following image, which will be in the rosbag file dir
 
 # Improvements
 
-The improvements are held in the [dev](tree/dev) branch.
+The improvements are held in the [dev](https://github.com/S2-group/icra-ws-robotics-rosbag/tree/dev) branch.
