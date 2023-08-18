@@ -58,4 +58,4 @@ The expected result is the following image, which will be in the rosbag file dir
 
 # Improvements
 
-The improvements are held in [this](https://github.com/S2-group/bagROS-rosbag-extractor) forked project, and the stable version of the tool is pushed to the `current` branch.
+The improvements are held in the [dev](tree/dev) branch.
