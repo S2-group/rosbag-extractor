@@ -1,4 +1,4 @@
-# Automatic Extraction of ROS Computation Graphs from ROS Bag Files
+# Static Extraction of ROS Computation Graphs from ROS Bag Files
 
 This project is an extension of the tool presented at the Robot Software Architecture Workshop ([RSA 2023](https://roboticsa.github.io/RoboticSA2023/)) co-located with the International Conference on Robotics and Automation [ICRA 2023](https://www.icra2023.org). The original project can be found [here](https://github.com/S2-group/icra-ws-robotics-rosbag).
 
