@@ -1,8 +1,7 @@
-# Automatic Extraction of Time-windowed ROS Computation Graphs from ROS Bag Files
+# Automatic Extraction of ROS Computation Graphs from ROS Bag Files
 
-This repository contains the replication package and dataset of our poster presented at the  Robot Software Architecture workshop ([RSA 2023](https://roboticsa.github.io/RoboticSA2023/)) co-located with the International Conference on Robotics and Automation [ICRA 2023](https://www.icra2023.org).
+This project is an extension of the tool presented at the Robot Software Architecture Workshop ([RSA 2023](https://roboticsa.github.io/RoboticSA2023/)) co-located with the International Conference on Robotics and Automation [ICRA 2023](https://www.icra2023.org). The original project can be found [here](https://github.com/S2-group/icra-ws-robotics-rosbag).
 
-A two-pager about this project is available on Arxiv [here](https://arxiv.org/abs/2305.16405).
 
 This study has been designed, developed, and reported by the following investigators:
 
@@ -11,16 +10,6 @@ This study has been designed, developed, and reported by the following investiga
 - [Ivano Malavolta](https://www.ivanomalavolta.com) (Vrije Universiteit Amsterdam)
 
 This project is about a tool to statically extract time-windowed computation graphs from [ROS bag files](http://wiki.ros.org/rosbag). Our approach is an alternative to dynamic extractors, such as the [rqt_graph](http://wiki.ros.org/rqt_graph) tool.
-
-## The Approach
-The following figure illustrates the 3-phases approach to extract the time-windowed computation graphs from the ROS bag files: 
-
-* ***Rosbag Extraction***: in this phase, we read the ROS bag content data and store it in a tabular format (CSV file), which is broadly used for data conversion and analysis. Both, ROS 1 and ROS 2 bag formats are supported.
-* ***Time-window Slicing***: in this phase, we select only the computation graph components within a time interval (time-window passed as a parameter), which benefits from the data that is already tabulated in the CSV file from phase 1
-* ***Computation Graph Building***: finally, in this phase, we generate a computation graph compatible with RQT, 
-which is a standard among ROS community.
-
-<p align="center"><img src="./rosbag_extractor-hd.png" alt="Extracted Graph: Minimal Publisher" width="350" height="350"/></center></p>
 
 ## Repository Organization
 
@@ -57,8 +46,6 @@ The expected result is the following image, which will be in the rosbag file dir
 <img src="./ros2_extraction.png" alt="Extracted Graph: Minimal Publisher" width="350"/>
 
 # Improvements
-
-## TODO
 
 - [ ] Add support for ROS services via the new service introspection feature provided by the Iron Irwini distribution.
 - [ ] Integrate other static analyzers like [HAROS](https://github.com/git-afsantos/haros) to complement the extracted architecture with additional information. 
