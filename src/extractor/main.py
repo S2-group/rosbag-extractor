@@ -63,7 +63,8 @@ def extractor(start, end, path_to_file, filetype, input_file):
         bag_end = b.end_time
         start_t, end_t = check_time_range(start, bag_start, end, bag_end)
 
-        bag.main(path_to_file, start_t, end_t, input_file)
+        # bag.main(path_to_file, start_t, end_t, input_file)
+        bag.main(path_to_file)
     elif filetype == 'db3':
         with Reader(path_to_file) as reader:
             bag_start = reader.start_time / 1000000000

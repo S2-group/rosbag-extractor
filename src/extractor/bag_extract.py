@@ -65,9 +65,8 @@ def generate_edges(graph, all_info, nodes):
             graph.edge(publisher, subscriber)
 
 
-def extract_graph(bagname, topics, all_info):
-    # print(bagname)
-    graph = Digraph(name=bagname, strict=True)
+def extract_graph(bag, topics, all_info):
+    graph = Digraph(name=bag)
 
     generate_topics(graph, topics)
 
@@ -98,8 +97,14 @@ def extract_graph(bagname, topics, all_info):
     graph.edge("/fixed node", "/rosout_agg")
 
     # save graph
-    graph.render(filename=bagname.split('/')[-1],
-                 directory="graphs/ros1/"+bagname.split('/')[-1])
+    bagname = bag.split('/')[-1]
+    graph.render(filename=bag.split('/')[-1],
+                 directory="graphs/ros1/"+bagname)
+
+    dot_file = "graphs/ros1/"+ bagname + '/' + bagname + '.dot'
+    with open(dot_file, 'w') as dot_file:
+        dot_file.write(graph.source)
+
     # view graph
     graph.unflatten(stagger=3, fanout=True).view()
 

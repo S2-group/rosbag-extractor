@@ -22,8 +22,6 @@ def get_sub_graph_name(name):
 
 def group_topics(parent_graph, level, old_list_t, longest_len, name):
     if level < longest_len:
-        # print('Start of level ------- ', level)
-
         # unique subtopics of current level
         sub_t = extract_subtopic(old_list_t, level)
         # print("subtopics: ", sub_t)
@@ -41,18 +39,14 @@ def group_topics(parent_graph, level, old_list_t, longest_len, name):
                     if len(l) > longest_len:
                         longest_len = len(l)
 
-            sub_graph = Digraph()
+            cluster_name = '/'.join(name)
+            sub_graph = Digraph(get_sub_graph_name(cluster_name))
+            sub_graph.attr(label=cluster_name)
+
             if len(new_list_t) > 1:
-                cluster_name = '/'.join(name)
-                sub_graph = Digraph(get_sub_graph_name(cluster_name),
-                                    node_attr={'shape': 'rectangle'})
-                sub_graph.attr(label=cluster_name)
-                sub_graph.attr(color='grey')
                 for topic in new_list_t:
                     topic_name = '/'.join(topic)
                     sub_graph.node(topic_name, label=topic_name)
-                    # sub_graph.graph_attr.update(rank='same')
-                parent_graph.subgraph(sub_graph)
 
             group_topics(sub_graph, level + 1, new_list_t, longest_len, name)
 
@@ -98,4 +92,5 @@ def main(graph, topics):
 
 
 # if __name__ == '__main__':
-#     main()
+    # graph=Digraph()
+    # main(graph)

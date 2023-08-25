@@ -6,7 +6,7 @@ from src.extractor import functions
 
 
 def main(bagfolder, start_t, end_t, input_file):
-    graph = Digraph(name=bagfolder, strict=True)
+    graph = Digraph(name=bagfolder)
     graph.graph_attr["rankdir"] = "LR"
     # add fixed nodes
     graph.node('/_ros2cli_rosbag2', '/_ros2cli_rosbag2')
@@ -56,8 +56,8 @@ def main(bagfolder, start_t, end_t, input_file):
         functions.create_graph(bagfolder, graph, topics, nodes)
 
         # save graph
-        graph.render(filename=bagfolder.split('/')[-1],
-                     directory="graphs/ros2/" + bagfolder.split('/')[-1])
+        functions.save_graph(bagfolder, graph)
+
         # view graph
         graph.unflatten(stagger=5, fanout=True).view()
 

@@ -134,3 +134,13 @@ def create_graph(bagfolder, graph, topics, nodes):
     generate_topics(bagfolder, graph, topics)
     generate_nodes(graph, nodes)
     generate_edges(bagfolder, graph, topics, nodes)
+
+
+def save_graph(bagfolder, graph):
+    bagname = bagfolder.split('/')[-1]
+    graph.render(filename=bagfolder.split('/')[-1],
+                 directory="graphs/ros2/" + bagname)
+
+    dot_file = "graphs/ros2/" + bagname + '/' + bagname + '.dot'
+    with open(dot_file, 'w') as dot_file:
+        dot_file.write(graph.source)
