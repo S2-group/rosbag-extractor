@@ -115,5 +115,9 @@ def main(bagfolder, start_t, end_t):
 
         create_graph(bagfolder, graph, topics)
 
+        # save graph
+        graph.render(filename=bagfolder.split('/')[-1],
+                     directory="graphs/ros2/" + bagfolder.split('/')[-1])
+
         # view graph
         graph.unflatten(stagger=5, fanout=True).view()
