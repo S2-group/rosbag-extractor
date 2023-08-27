@@ -1,7 +1,8 @@
+import numpy as np
 import pandas as pd
 from src.extractor import group_topic
 import os
-
+import ast
 
 def get_file_path(bagfolder, topic):
     return bagfolder + "/" + topic.replace("/", "-")[1:] + ".csv"
@@ -105,29 +106,34 @@ def generate_edges(bagfolder, graph, topics, nodes):
         graph.edge('/_ros2cli_rosbag2', topic)
 
     if len(nodes) > 0:
-        # pubs
         df_pubs = pd.read_csv(bagfolder+'/pubs.csv')
-        for node in nodes:
-            pub_to_topics = df_pubs[df_pubs['Name'] == node]['Publish'].values[0]
-            for topic_name in pub_to_topics:
-                # check if the topic is already in the graph
-                if topic_name in graph:
-                    graph.edge(node, topic_name, color='blue')
-                else:
-                    graph.node(topic_name, topic_name, {'shape': 'rectangle'}, color='blue')
-                    graph.edge(node, topic_name, color='blue')
-
-        # subs
         df_subs = pd.read_csv(bagfolder+'/subs.csv')
+
         for node in nodes:
-            sub_to_topics = df_subs[df_subs['Name'] == node]['Subscribe'].values[0]
-            for topic_name in sub_to_topics:
-                # check if the topic is already in the graph
-                if topic_name in graph:
-                    graph.edge(topic_name, node, color='blue')
-                else:
-                    graph.node(topic_name, topic_name, {'shape': 'rectangle'}, color='blue')
-                    graph.edge(topic_name, node, color='blue')
+            pub_to_topics = ast.literal_eval(df_pubs[df_pubs['Name'] == node]['Publish'].values[0])
+            sub_to_topics = ast.literal_eval(df_subs[df_subs['Name'] == node]['Subscribe'].values[0])
+
+            if len(pub_to_topics) != 0:
+                # pubs
+                for topic_name in pub_to_topics:
+                    if topic_name in graph:
+                        graph.edge(node, topic_name, color='blue')
+                    else:
+                        graph.node(topic_name, topic_name, {'shape': 'rectangle'}, color='blue')
+                        graph.edge(node, topic_name, color='blue')
+
+            if len(sub_to_topics) != 0:
+                # subs
+                for topic_name in sub_to_topics:
+                    if topic_name in graph:
+                        graph.edge(topic_name, node, color='blue')
+                    else:
+                        graph.node(topic_name, topic_name, {'shape': 'rectangle'}, color='blue')
+                        graph.edge(topic_name, node, color='blue')
+
+            # remove the node if the node has no publisher or subscriber
+            if len(pub_to_topics) == 0 and len(sub_to_topics) == 0:
+                graph.body[:] = [item for item in graph.body if node not in item]
 
 
 def create_graph(bagfolder, graph, topics, nodes):
