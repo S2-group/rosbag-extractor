@@ -5,8 +5,8 @@ from graphviz import Digraph
 from src.extractor import functions
 import black
 
-def main(bagfolder, file, start_t, end_t, input_file):
-    graph = Digraph(name=bagfolder)
+def main(bagfolder, file, start_t, end_t, input_file, graph_n):
+    graph = Digraph(name=bagfolder+graph_n)
     graph.graph_attr["rankdir"] = "LR"
 
     # add fixed nodes
@@ -57,12 +57,12 @@ def main(bagfolder, file, start_t, end_t, input_file):
     else:
         nodes = []
 
-    functions.create_graph(bagfolder, graph, topics, nodes)
+    functions.create_graph(bagfolder, graph, topics, nodes, graph_n)
 
     # functions.add_metrics(graph)
 
     # save graph
-    functions.save_graph(bagfolder, graph)
+    functions.save_graph(bagfolder, graph, graph_n)
 
     # view graph
     graph.unflatten(stagger=5, fanout=True).view()

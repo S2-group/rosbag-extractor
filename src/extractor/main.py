@@ -48,7 +48,7 @@ def check_time_range(start, bag_start, end, bag_end):
     return start_t, end_t
 
 
-def extractor(start, end, path_to_file, filetype, input_file):
+def extractor(start, end, path_to_file, filetype, input_file, time_space):
     # time parsed as in second (str)
     # start = sys.argv[1]
     # end = sys.argv[2]
@@ -59,9 +59,9 @@ def extractor(start, end, path_to_file, filetype, input_file):
         bagfile = path_to_file + '/' + path_to_file.split('/')[-1] + ".bag"
 
         b = bagreader(bagfile)
-        bag_start = b.start_time
-        bag_end = b.end_time
-        start_t, end_t = check_time_range(start, bag_start, end, bag_end)
+        # bag_start = b.start_time
+        # bag_end = b.end_time
+        # start_t, end_t = check_time_range(start, bag_start, end, bag_end)
 
         # bag.main(path_to_file, start_t, end_t, input_file)
         bag.main(path_to_file)
@@ -71,8 +71,27 @@ def extractor(start, end, path_to_file, filetype, input_file):
             bag_end = reader.end_time / 1000000000
 
         start_t, end_t = check_time_range(start, bag_start, end, bag_end)
-        print("The extraction STARTS at", start_t, "and ENDS at", end_t)
-        db3.main(path_to_file, start_t, end_t, input_file)
+
+        if time_space is not None:
+            start_t_spaced = start_t
+            graph_n = 0
+            time_space = float(time_space)
+            while start_t_spaced+time_space < bag_end:
+                print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
+                      start_t_spaced+time_space)
+                db3.main(path_to_file, start_t_spaced, start_t_spaced+time_space, input_file, str(graph_n))
+                start_t_spaced += time_space
+                graph_n += 1
+
+            # last graph
+            print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
+                  end_t)
+            db3.main(path_to_file, start_t_spaced, end_t, input_file, str(graph_n))
+        else:
+            graph_n = 0
+            print("The extraction STARTS at", start_t, "and ENDS at", end_t)
+            db3.main(path_to_file, start_t, end_t, input_file, str(graph_n))
+
     else:
         file_mcap = get_mcap_file_name(path_to_file)
         reader = make_reader(open(file_mcap, "rb"), decoder_factories=[DecoderFactory()])
@@ -94,8 +113,26 @@ def extractor(start, end, path_to_file, filetype, input_file):
         bag_end = reader.get_summary().statistics.message_end_time / 1000000000
 
         start_t, end_t = check_time_range(start, bag_start, end, bag_end)
-        print("The extraction STARTS at", start_t, "and ENDS at", end_t)
-        mcap.main(path_to_file, file_mcap, start_t, end_t, input_file)
+
+        if time_space is not None:
+            start_t_spaced = start_t
+            graph_n = 0
+            time_space = float(time_space)
+            while start_t_spaced+time_space < bag_end:
+                print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
+                      start_t_spaced+time_space)
+                mcap.main(path_to_file, file_mcap, start_t_spaced, start_t_spaced+time_space, input_file, str(graph_n))
+                start_t_spaced += time_space
+                graph_n += 1
+
+            # last graph
+            print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
+                  end_t)
+            mcap.main(path_to_file, file_mcap, start_t_spaced, end_t, input_file, str(graph_n))
+        else:
+            graph_n = 0
+            print("The extraction STARTS at", start_t, "and ENDS at", end_t)
+            mcap.main(path_to_file, file_mcap, start_t, end_t, input_file, str(graph_n))
 
 
 # if __name__ == '__main__':
