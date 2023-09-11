@@ -97,10 +97,6 @@ def extract_graph(bag, topics, all_info):
     graph.edge("/fixed node", "/rosout_agg")
 
     # save graph
-<<<<<<< HEAD:src/extractor/ros1/extract_graph.py
-    graph.render(filename=bagname.split('/')[-1],
-                 directory="graphs/ros1/"+bagname.split('/')[-1])
-=======
     bagname = bag.split('/')[-1]
     graph.render(filename=bag.split('/')[-1],
                  directory="graphs/ros1/"+bagname)
@@ -108,7 +104,6 @@ def extract_graph(bag, topics, all_info):
     dot_file = "graphs/ros1/"+ bagname + '/' + bagname + '.dot'
     with open(dot_file, 'w') as dot_file:
         dot_file.write(graph.source)
->>>>>>> 6e6001b6a833874f359c0f430ea2da9796b05d4c:src/extractor/bag_extract.py
 
     # view graph
     graph.unflatten(stagger=3, fanout=True).view()
