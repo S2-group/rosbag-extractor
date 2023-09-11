@@ -96,6 +96,10 @@ def extract_graph(bagname, topics, all_info):
     graph.edge("/rosout", "/fixed node")
     graph.edge("/fixed node", "/rosout_agg")
 
+    # save graph
+    graph.render(filename=bagname.split('/')[-1],
+                 directory="graphs/ros1/"+bagname.split('/')[-1])
+
     # view graph
     graph.unflatten(stagger=3, fanout=True).view()
 
