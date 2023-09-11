@@ -2,12 +2,13 @@ from mcap_ros2.reader import read_ros2_messages
 import pandas as pd
 import os
 from graphviz import Digraph
-import functions
+from src.extractor import functions
+import black
 
-
-def main(folder, file, start_t, end_t):
-    graph = Digraph(name=folder, strict=True)
+def main(bagfolder, file, start_t, end_t, input_file):
+    graph = Digraph(name=bagfolder)
     graph.graph_attr["rankdir"] = "LR"
+
     # add fixed nodes
     graph.node('/_ros2cli_rosbag2', '/_ros2cli_rosbag2')
 
@@ -24,7 +25,7 @@ def main(folder, file, start_t, end_t):
 
         topic_info = functions.get_msg_and_info_mcap(connections)
 
-        file_path = functions.get_file_path(folder, topic)
+        file_path = functions.get_file_path(bagfolder, topic)
 
         if os.path.exists(file_path):
             os.remove(file_path)
@@ -39,7 +40,7 @@ def main(folder, file, start_t, end_t):
                                      })
             all_info = pd.concat([all_info, new_data], ignore_index=True)
 
-    all_info.to_csv(folder + '/' + 'all_info.csv')
+    all_info.to_csv(bagfolder + '/' + 'all_info.csv')
 
     # topics within the time range
     topics = []
@@ -50,21 +51,21 @@ def main(folder, file, start_t, end_t):
                 if topic_data['end-time'].values[0] > start_t:
                     topics.append(topic)
 
-    functions.create_graph(folder, graph, topics)
+    if input_file is not None:  # with external file
+        functions.read_csvs(bagfolder, input_file)
+        nodes = functions.get_all_nodes(input_file)
+    else:
+        nodes = []
+
+    functions.create_graph(bagfolder, graph, topics, nodes)
+
+    # functions.add_metrics(graph)
 
     # save graph
-    graph.render(filename=folder.split('/')[-1],
-                 directory="graphs/ros2/" + folder.split('/')[-1])
+    functions.save_graph(bagfolder, graph)
+
     # view graph
     graph.unflatten(stagger=5, fanout=True).view()
 
 # if __name__ == '__main__':
-#     file = "/Users/berry.c/Desktop/rosbag/bagfiles/ros2/iron_mcap/rosbag2_2023_07_24-15_37_31/rosbag2_2023_07_24-15_37_31_0.mcap"
-#     folder = "/Users/berry.c/Desktop/rosbag/bagfiles/ros2/iron_mcap/rosbag2_2023_07_24-15_37_31"
-#
-#     reader = make_reader(open(file, "rb"), decoder_factories=[DecoderFactory()])
-#
-#     start = reader.get_summary().statistics.message_start_time / 1000000000
-#     end = reader.get_summary().statistics.message_end_time / 1000000000
-#
-#     main(folder, file, start, end)
+#     main(bagfolder, file, start, end, input)

@@ -1,4 +1,4 @@
-# python3 extract_graph.py bagfile
+# python3 bag_extract.py bagfile
 
 from bagpy import bagreader
 import pandas as pd
@@ -65,8 +65,8 @@ def generate_edges(graph, all_info, nodes):
             graph.edge(publisher, subscriber)
 
 
-def extract_graph(bagname, topics, all_info):
-    graph = Digraph(name=bagname, strict=True)
+def extract_graph(bag, topics, all_info):
+    graph = Digraph(name=bag)
 
     generate_topics(graph, topics)
 
@@ -96,13 +96,27 @@ def extract_graph(bagname, topics, all_info):
     graph.edge("/rosout", "/fixed node")
     graph.edge("/fixed node", "/rosout_agg")
 
+    # save graph
+    bagname = bag.split('/')[-1]
+    graph.render(filename=bag.split('/')[-1],
+                 directory="graphs/ros1/"+bagname)
+
+    dot_file = "graphs/ros1/"+ bagname + '/' + bagname + '.dot'
+    with open(dot_file, 'w') as dot_file:
+        dot_file.write(graph.source)
+
     # view graph
     graph.unflatten(stagger=3, fanout=True).view()
 
 
-def main():
-    bagfile = sys.argv[1]
-    bagname = bagfile.replace('.bag', '')
+def get_file_name(folder):
+    return folder + '/' + folder.split('/')[-1] + ".bag"
+
+
+def main(bagfolder):
+    # bagfile = sys.argv[1]
+    bagfile = get_file_name(bagfolder)
+    bag = bagfile.replace('.bag', '')
 
     while(True):
         try:
@@ -114,14 +128,14 @@ def main():
 
     if '/rosout' in b.topics:
         # print("TRUE")
-        all_info = read_rosout(b, bagname)
+        all_info = read_rosout(b, bag)
     else:
         # print("FALSE")
         # print(b.topics)
         sys.exit()
 
-    extract_graph(bagname, b.topics, all_info)
+    extract_graph(bag, b.topics, all_info)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

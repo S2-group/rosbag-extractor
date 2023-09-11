@@ -2,11 +2,11 @@ from rosbags.rosbag2 import Reader
 from graphviz import Digraph
 import pandas as pd
 import os
-import functions
+from src.extractor import functions
 
 
-def main(bagfolder, start_t, end_t):
-    graph = Digraph(name=bagfolder, strict=True)
+def main(bagfolder, start_t, end_t, input_file):
+    graph = Digraph(name=bagfolder)
     graph.graph_attr["rankdir"] = "LR"
     # add fixed nodes
     graph.node('/_ros2cli_rosbag2', '/_ros2cli_rosbag2')
@@ -23,6 +23,9 @@ def main(bagfolder, start_t, end_t):
                 os.remove(file_path)
             topic_info.to_csv(file_path)
 
+            # print(topic)
+            # print(len(topic_info['Stamps'].head(1).values))
+            # print(topic_info['Stamps'].tail(1).values)
             if len(topic_info['Stamps'].head(1).values) != 0 and len(topic_info['Stamps'].tail(1).values) != 0:
                 new_data = pd.DataFrame({'topics': topic,
                                          'start-time': topic_info['Stamps'].head(1).values,
@@ -44,10 +47,19 @@ def main(bagfolder, start_t, end_t):
                     if topic_data['end-time'].values[0] > start_t:
                         topics.append(topic)
 
-        functions.create_graph(bagfolder, graph, topics)
+        if input_file is not None:  # with external file
+            functions.read_csvs(bagfolder, input_file)
+            nodes = functions.get_all_nodes(input_file)
+        else:
+            nodes = []
+
+        functions.create_graph(bagfolder, graph, topics, nodes)
 
         # save graph
-        graph.render(filename=bagfolder.split('/')[-1],
-                     directory="graphs/ros2/" + bagfolder.split('/')[-1])
+        functions.save_graph(bagfolder, graph)
+
         # view graph
         graph.unflatten(stagger=5, fanout=True).view()
+
+# if __name__ == '__main__':
+#     main(bagfolder, file, start, end, input)
