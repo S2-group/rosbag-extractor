@@ -94,9 +94,9 @@ def main(bagfolder, start_t, end_t):
             if len(topic_info['Stamps'].head(1).values) != 0 and len(topic_info['Stamps'].tail(1).values) != 0:
                 data = pd.DataFrame({'topics': topic,
                                      'start-time': topic_info['Stamps'].head(1).values,
-                                     'start-epoch': datetime.fromtimestamp(int(topic_info['Stamps'].head(1).values)),
+                                     #  'start-epoch': datetime.fromtimestamp(int(topic_info['Stamps'].head(1).values)),
                                      'end-time': topic_info['Stamps'].tail(1).values,
-                                     'end-epoch': datetime.fromtimestamp(int(topic_info['Stamps'].tail(1).values)),
+                                     #  'end-epoch': datetime.fromtimestamp(int(topic_info['Stamps'].tail(1).values)),
                                      'med-frequency': get_freq(topic_info['Stamps'].tolist()),
                                      'mean-frequency': get_mean_freq(topic_info['Stamps'].tolist())})
 
@@ -104,13 +104,13 @@ def main(bagfolder, start_t, end_t):
 
         all_info.to_csv(bagfolder + '/' + 'all_info.csv')
 
+        # topics within the time range
         topics = []
         for topic in list(reader.topics):
             topic_data = all_info.loc[all_info['topics'] == topic]
             if not topic_data.empty:
-                if datetime.fromtimestamp(int(topic_data['start-time'].values[0])) < end_t \
-                        or datetime.fromtimestamp(int(topic_data['start-time'].values[0])) == end_t:
-                    if datetime.fromtimestamp(int(topic_data['end-time'].values[0])) > start_t:
+                if topic_data['start-time'].values[0] < end_t or topic_data['start-time'].values[0] == end_t:
+                    if topic_data['end-time'].values[0] > start_t:
                         topics.append(topic)
 
         create_graph(bagfolder, graph, topics)

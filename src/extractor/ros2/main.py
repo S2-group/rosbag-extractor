@@ -1,37 +1,34 @@
-
-#import ros1_extract
 import sys
-from datetime import datetime
 from rosbags.rosbag2 import Reader
 import ros2_extract
-
-def date_to_datetime(time):
-    return datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
 
 
 def main():
     path_to_file = sys.argv[1]
 
+    # time parsed as in second (str)
     start = sys.argv[2]
     end = sys.argv[3]
 
     with Reader(path_to_file) as reader:
-        bag_start = datetime.fromtimestamp(reader.start_time // 1000000000)
-        bag_end = datetime.fromtimestamp(reader.end_time // 1000000000)
-        # print("The bagfile STARTS at：", bag_start, " and ENDS at: ", bag_end)
+        # time in second
+        bag_start = reader.start_time / 1000000000
+        bag_end = reader.end_time / 1000000000
+
+        # bag_duration = reader.duration / 1000000000
 
     if start == 'start':
         start_t = bag_start
     else:
         try:
-            if date_to_datetime(start) < bag_start or date_to_datetime(start) > bag_end:
+            if float(start) < bag_start or float(start) > bag_end:
                 print("Please input a valid start time.")
-                print("Current start_time: ", date_to_datetime(start))
+                print("Current start_time: ", start)
                 print("Bag file start_time: ", bag_start)
                 print("Bag file end_time: ", bag_end)
                 sys.exit()
             else:
-                start_t = date_to_datetime(start)
+                start_t = float(start)
         except ValueError as err:
             print("ValueError: ", err)
             sys.exit()
@@ -40,15 +37,16 @@ def main():
         end_t = bag_end
     else:
         try:
-            if date_to_datetime(end) > bag_end or date_to_datetime(end) < bag_start:
+            if float(end) > bag_end or float(end) < bag_start:
                 print("Please input a valid end time.")
                 sys.exit()
             else:
-                end_t = date_to_datetime(end)
+                end_t = float(end)
         except ValueError as err:
             print("ValueError: ", err)
             sys.exit()
 
+    print("The extraction STARTS at", start_t, "and ENDS at", end_t)
     ros2_extract.main(path_to_file, start_t, end_t)
 
 
