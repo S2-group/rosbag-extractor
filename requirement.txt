@@ -4,3 +4,4 @@ catkin_pkg
 rosbags
 mcap
 mcap-ros2-support
+black
