@@ -1,22 +1,17 @@
 import sys
 from rosbags.rosbag2 import Reader
-import ros2_extract
+from mcap.reader import make_reader
+from mcap_ros2.decoder import DecoderFactory
+import db3_extract
+import mcap_extract
 
 
-def main():
-    path_to_file = sys.argv[1]
+def get_mcap_file_name(path_to_file):
+    folder = path_to_file.split('/')[-1]
+    return path_to_file + "/" + folder + "_0.mcap"
 
-    # time parsed as in second (str)
-    start = sys.argv[2]
-    end = sys.argv[3]
 
-    with Reader(path_to_file) as reader:
-        # time in second
-        bag_start = reader.start_time / 1000000000
-        bag_end = reader.end_time / 1000000000
-
-        # bag_duration = reader.duration / 1000000000
-
+def check_time_range(start, bag_start, end, bag_end):
     if start == 'start':
         start_t = bag_start
     else:
@@ -45,9 +40,34 @@ def main():
         except ValueError as err:
             print("ValueError: ", err)
             sys.exit()
+    return start_t, end_t
 
-    print("The extraction STARTS at", start_t, "and ENDS at", end_t)
-    ros2_extract.main(path_to_file, start_t, end_t)
+
+def main():
+    # time parsed as in second (str)
+    start = sys.argv[1]
+    end = sys.argv[2]
+    path_to_file = sys.argv[3]
+    filetype = sys.argv[4]
+
+
+    if filetype == 'db3':
+        with Reader(path_to_file) as reader:
+            bag_start = reader.start_time / 1000000000
+            bag_end = reader.end_time / 1000000000
+
+        start_t, end_t = check_time_range(start, bag_start, end, bag_end)
+        print("The extraction STARTS at", start_t, "and ENDS at", end_t)
+        db3_extract.main(path_to_file, start_t, end_t)
+    else:
+        file_mcap = get_mcap_file_name(path_to_file)
+        reader = make_reader(open(file_mcap, "rb"), decoder_factories=[DecoderFactory()])
+        bag_start = reader.get_summary().statistics.message_start_time / 1000000000
+        bag_end = reader.get_summary().statistics.message_end_time / 1000000000
+
+        start_t, end_t = check_time_range(start, bag_start, end, bag_end)
+        print("The extraction STARTS at", start_t, "and ENDS at", end_t)
+        mcap_extract.main(path_to_file, file_mcap, start_t, end_t)
 
 
 if __name__ == '__main__':
