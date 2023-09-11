@@ -3,14 +3,11 @@ import pandas as pd
 import os
 from graphviz import Digraph
 from src.extractor import functions
-import black
+
 
 def main(bagfolder, file, start_t, end_t, input_file, graph_n):
     graph = Digraph(name=bagfolder+graph_n)
     graph.graph_attr["rankdir"] = "LR"
-
-    # add fixed nodes
-    graph.node('/_ros2cli_rosbag2', '/_ros2cli_rosbag2')
 
     # get all topics
     all_topics = []
@@ -57,9 +54,12 @@ def main(bagfolder, file, start_t, end_t, input_file, graph_n):
     else:
         nodes = []
 
-    functions.create_graph(bagfolder, graph, topics, nodes, graph_n)
+    metric = dict()
+    metric['Filepath'] = bagfolder
+    metric['Start'] = start_t
+    metric['End'] = end_t
 
-    # functions.add_metrics(graph)
+    functions.create_graph(bagfolder, graph, topics, nodes, graph_n, metric)
 
     # save graph
     functions.save_graph(bagfolder, graph, graph_n)

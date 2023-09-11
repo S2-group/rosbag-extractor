@@ -7,10 +7,7 @@ from src.extractor import functions
 
 def main(bagfolder, start_t, end_t, input_file, graph_n):
     graph = Digraph(name=bagfolder+graph_n)
-
     graph.graph_attr["rankdir"] = "LR"
-    # add fixed nodes
-    graph.node('/_ros2cli_rosbag2', '/_ros2cli_rosbag2')
 
     with Reader(bagfolder) as reader:
         all_info = pd.DataFrame()
@@ -54,7 +51,12 @@ def main(bagfolder, start_t, end_t, input_file, graph_n):
         else:
             nodes = []
 
-        functions.create_graph(bagfolder, graph, topics, nodes, graph_n)
+        metric = dict()
+        metric['Filepath'] = bagfolder
+        metric['Start'] = start_t
+        metric['End'] = end_t
+
+        functions.create_graph(bagfolder, graph, topics, nodes, graph_n, metric)
 
         # save graph
         functions.save_graph(bagfolder, graph, graph_n)
