@@ -6,9 +6,6 @@ from mcap_ros2.decoder import DecoderFactory
 from src.extractor import bag_extract as bag
 from src.extractor import db3_extract as db3
 from src.extractor import mcap_extract as mcap
-# from mcap_ros2.reader import read_ros2_messages
-# import mcap
-# from mcap.mcap0.stream_reader import StreamReader
 
 
 def get_mcap_file_name(path_to_file):
@@ -21,14 +18,14 @@ def check_time_range(start, bag_start, end, bag_end):
         start_t = bag_start
     else:
         try:
-            if float(start) < bag_start or float(start) > bag_end:
-                print("Please input a valid start time.")
-                print("Current start_time: ", start)
-                print("Bag file start_time: ", bag_start)
-                print("Bag file end_time: ", bag_end)
+            if float(start) + bag_start > bag_end:
+                print("Please input a valid start time. The bag has duration of", str(bag_end-bag_start), 'seconds')
+                # print("Current start_time: ", start)
+                # print("Bag file start_time: ", bag_start)
+                # print("Bag file end_time: ", bag_end)
                 sys.exit()
             else:
-                start_t = float(start)
+                start_t = float(start) + bag_start
         except ValueError as err:
             print("ValueError: ", err)
             sys.exit()
@@ -37,11 +34,11 @@ def check_time_range(start, bag_start, end, bag_end):
         end_t = bag_end
     else:
         try:
-            if float(end) > bag_end or float(end) < bag_start:
-                print("Please input a valid end time.")
+            if float(end) < 0 or float(end) + bag_start > bag_end:
+                print("Please input a valid end time. The bag has duration of", str(bag_end-bag_start), 'seconds')
                 sys.exit()
             else:
-                end_t = float(end)
+                end_t = float(end) + bag_start
         except ValueError as err:
             print("ValueError: ", err)
             sys.exit()
@@ -49,12 +46,6 @@ def check_time_range(start, bag_start, end, bag_end):
 
 
 def extractor(start, end, path_to_file, filetype, input_file, time_space):
-    # time parsed as in second (str)
-    # start = sys.argv[1]
-    # end = sys.argv[2]
-    # path_to_file = sys.argv[3]
-    # filetype = sys.argv[4]
-
     if filetype == 'bag':
         bagfile = path_to_file + '/' + path_to_file.split('/')[-1] + ".bag"
 
@@ -62,7 +53,6 @@ def extractor(start, end, path_to_file, filetype, input_file, time_space):
         # bag_start = b.start_time
         # bag_end = b.end_time
         # start_t, end_t = check_time_range(start, bag_start, end, bag_end)
-
         # bag.main(path_to_file, start_t, end_t, input_file)
         bag.main(path_to_file)
     elif filetype == 'db3':
@@ -78,18 +68,18 @@ def extractor(start, end, path_to_file, filetype, input_file, time_space):
             time_space = float(time_space)
             while start_t_spaced+time_space < bag_end:
                 print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
-                      start_t_spaced+time_space)
+                      start_t_spaced+time_space, "\nThe duration of bag is: " + str(time_space), 'seconds')
                 db3.main(path_to_file, start_t_spaced, start_t_spaced+time_space, input_file, str(graph_n))
                 start_t_spaced += time_space
                 graph_n += 1
 
             # last graph
             print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
-                  end_t)
+                  end_t, "\nThe duration of bag is: " + str(end_t-start_t_spaced), 'seconds')
             db3.main(path_to_file, start_t_spaced, end_t, input_file, str(graph_n))
         else:
             graph_n = 0
-            print("The extraction STARTS at", start_t, "and ENDS at", end_t)
+            print("The extraction STARTS at", start_t, "and ENDS at", end_t, "\nThe duration of bag is: " + str(end_t-start_t), 'seconds')
             db3.main(path_to_file, start_t, end_t, input_file, str(graph_n))
 
     else:
@@ -98,7 +88,7 @@ def extractor(start, end, path_to_file, filetype, input_file, time_space):
 
         # connections = read_ros2_messages(file_mcap)
 
-        # Reference: https: // pypi.org / project / mcap / 0.0.4 / -> version 0.0.14
+        # Reference: https://pypi.org/project/mcap/0.0.4/ -> version 0.0.14
         # stream = open(file_mcap, "rb")
         # reader = StreamReader(stream)
         # file_path = 'test.txt'
@@ -120,18 +110,18 @@ def extractor(start, end, path_to_file, filetype, input_file, time_space):
             time_space = float(time_space)
             while start_t_spaced+time_space < bag_end:
                 print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
-                      start_t_spaced+time_space)
+                      start_t_spaced+time_space, "\nThe duration of bag is: " + str(time_space), 'seconds')
                 mcap.main(path_to_file, file_mcap, start_t_spaced, start_t_spaced+time_space, input_file, str(graph_n))
                 start_t_spaced += time_space
                 graph_n += 1
 
             # last graph
             print("The extraction of graph " + str(graph_n) + " STARTS at", start_t_spaced, "and ENDS at",
-                  end_t)
+                  end_t, "\nThe duration of bag is: " + str(end_t-start_t_spaced), 'seconds')
             mcap.main(path_to_file, file_mcap, start_t_spaced, end_t, input_file, str(graph_n))
         else:
             graph_n = 0
-            print("The extraction STARTS at", start_t, "and ENDS at", end_t)
+            print("The extraction STARTS at", start_t, "and ENDS at", end_t, "\nThe duration of bag is: " + str(end_t-start_t), 'seconds')
             mcap.main(path_to_file, file_mcap, start_t, end_t, input_file, str(graph_n))
 
 
