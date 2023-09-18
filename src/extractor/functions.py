@@ -191,8 +191,8 @@ def create_graph(bagfolder, graph, topics, nodes, graph_n, metric):
 
 
     # save metric
-    directory = 'metrics/ros2'
-    metric_path = 'metrics/ros2/'+ bagfolder.split('/')[-1] +'_' + graph_n + '.json'
+    directory = 'metrics/'
+    metric_path = 'metrics/'+ bagfolder.split('/')[-1] +'_' + graph_n + '.json'
     os.makedirs(directory, exist_ok=True)
     with open(metric_path, 'w') as json_file:
         json.dump(metric, json_file, indent=4)
