@@ -1,4 +1,7 @@
 bagpy>=0.4.8
 graphviz>=0.20
-catkin_pkg>0.5.2
+catkin_pkg
 rosbags
+mcap
+mcap-ros2-support
+black
