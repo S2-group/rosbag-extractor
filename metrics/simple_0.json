@@ -1,0 +1,46 @@
+{
+    "Filepath": "bagfiles/ros2/simple",
+    "Start": 1597400474.6794512,
+    "End": 1597400625.6389186,
+    "Topics": {
+        "/clock": {
+            "name": "/clock",
+            "start": 1597400474.8682504,
+            "end": 1597400625.6319788,
+            "frequency": 9.95
+        },
+        "/cones/positions": {
+            "name": "/cones/positions",
+            "start": 1597400474.6796238,
+            "end": 1597400625.6289575,
+            "frequency": 30.09
+        },
+        "/gazebo/cmd_vel": {
+            "name": "/gazebo/cmd_vel",
+            "start": 1597400474.763197,
+            "end": 1597400625.637792,
+            "frequency": 30.53
+        },
+        "/gazebo/link_states": {
+            "name": "/gazebo/link_states",
+            "start": 1597400474.7596788,
+            "end": 1597400625.611026,
+            "frequency": 29.21
+        },
+        "/gazebo/odom": {
+            "name": "/gazebo/odom",
+            "start": 1597400474.7110949,
+            "end": 1597400625.6389186,
+            "frequency": 99.32
+        }
+    },
+    "Nodes": {
+        "/_ros2cli_rosbag2": {
+            "name": "/_ros2cli_rosbag2",
+            "source": "fixed node",
+            "#publisher": 0,
+            "#subscriber": 5,
+            "avg_pub_freq": 39.82
+        }
+    }
+}

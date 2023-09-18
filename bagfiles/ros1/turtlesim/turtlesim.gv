@@ -1,4 +1,4 @@
-strict digraph "./src/extractor/ros1/turtlesim" {
+strict digraph "bagfiles/ros1/turtlesim/turtlesim" {
 	subgraph cluster_turtle1 {
 		graph [label="/turtle1"];
 		"/turtle1/cmd_vel"	[label="/turtle1/cmd_vel",
