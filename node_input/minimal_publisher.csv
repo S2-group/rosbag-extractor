@@ -1,0 +1,2 @@
+Name,Publish,Subscribe,Node-start,Node-end
+/minimal_publisher,['/topic'],[],,
