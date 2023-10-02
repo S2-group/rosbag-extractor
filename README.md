@@ -1,10 +1,23 @@
-# Extraction of Time-windowed ROS Computation Graphs from ROS Bag Files
-...
+# RosART - A ROS Static Architecture Extraction and Visualization Tool
+
+## The Approach
+The following figure illustrates the 3-phases approach to extract computation graphs from the ROS bag files: 
+
+* ***Rosbag Extraction***: In this phase, the time-stamped data from the bagfile is extracted, encompassing records of nodes and topics’ activities. Subsequently, this data is organized into separate CSV files for each topic, ensuring ease of access for further analysis. Supported file formats include ``bag``(ROS1), ``db3``(ROS2) and ``mcap``(ROS2).
+* ***Time-window Slicing***: in this phase, we select only the computation graph components within a time interval (time-window passed as a parameter), which benefits from the data that is already tabulated in the CSV file from phase 1
+* ***Computation Graph Building***: finally, in this phase, we generate a computation graph compatible with RQT, 
+which is a standard among ROS community.
+
+<p align="center"><img src="./new-wrokflow.png" alt="New workflow" width="700"/></center></p>
+
 
 ## Repository Organization
 
 ```
 ./bagfiles/          - Contains samples of bag files and a list of all we found on GitHub.
+./graphs/            - Contains the extracted computation graphs.
+./metrics/           - Contains the metrics of each bag file after extraction.
+./node_input/        - Contains the external inputs with architectural information.
 ./src/git_api/       - Contains the code used and documentation to crawl GitHub repositories.
 ./src/extractor/     - Contains the source code and documentation of the architecture extractor.
 ```
@@ -20,21 +33,17 @@ If the requirements list is/becomes broken, do not hesitate to pull request the 
 
 Then, just run the extraction script on a bag file: 
 ```
-$ ./extractor.sh <ros_version> [<start_time> <end_time>] /path/file
+$ python3 extractor.py [-h] <-v ROS_VERSION> [-s START_TIME] [-e END_TIME] <-f FILE_PATH> <-ft FILE_TYPE> [-i INPUT] [-ts TIME_SPACE]
 ```
 
 ##### Example
 
-Here, we provide and example with a very simple ROS 2 bag file:
+Here, we provide an example with a very simple ROS 2 bag file:
 ```
-$ export root_dir='your project dir'
-$ ./extractor.sh ros2 "2020-02-04 07:23:55" "2020-02-04 07:23:59" $root_dir/bagfiles/ros2/talker/
+$ python3 extractor.py -v=ros2 -s=1 -e=3 -f=./bagfiles/ros2/talker -ft=db3 -i=./node_input/minimal_publisher.csv
 ```
+By running this command, the tool extracts from the 1st second to the 3rd second of the bagfile, with information from the external input.
 
-The expected result is the following image, which will be in the rosbag file directory:
+The expected result is the following image, which will be in the ``graphs/ros2`` directory:
 
-<img src="./ros2_extraction.png" alt="Extracted Graph: Minimal Publisher" width="350"/>
-
-# Improvements
-
-The improvements are held in the [dev](https://github.com/S2-group/rosbag-extractor/tree/dev) branch.
+<img src="./graphs/ros2/talker/talker_0.png" alt="Extracted Graph: Minimal Publisher" width="500"/>
