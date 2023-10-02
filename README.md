@@ -1,14 +1,13 @@
-# RosART - A ROS Static Architecture Extraction and Visualization Tool
+# RosART - ROS Static Architecture Extraction and Visualization Tool
 
 ## The Approach
 The following figure illustrates the 3-phases approach to extract computation graphs from the ROS bag files: 
 
 * ***Rosbag Extraction***: In this phase, the time-stamped data from the bagfile is extracted, encompassing records of nodes and topics’ activities. Subsequently, this data is organized into separate CSV files for each topic, ensuring ease of access for further analysis. Supported file formats include ``bag``(ROS1), ``db3``(ROS2) and ``mcap``(ROS2).
-* ***Time-window Slicing***: in this phase, we select only the computation graph components within a time interval (time-window passed as a parameter), which benefits from the data that is already tabulated in the CSV file from phase 1
-* ***Computation Graph Building***: finally, in this phase, we generate a computation graph compatible with RQT, 
-which is a standard among ROS community.
+* ***Time-window Slicing***: In this phase, we extract the data based on the time-window specified by the user and the CSV files from phase 1. Within this defined timeframe, the tool computes how often data is published on a certain topic, also termed as frequency. Moreover, the external input file is also read and processed, resulting in two CSV files, namely ‘pubs.csv’ and ‘subs.csv’.
+* ***Computation Graph Building***: In this phase, a series of computation graphs are created based on the user-defined time interval and information obtained from prior phases. Without the user-defined time interval, a single computation graph is returned and covers the information within the user-defined time window. This graph is constructed utilizing [Graphviz](https://www.graphviz.org) to reproduce a consistent view with [RQT](https://wiki.ros.org/rqt_graph), which is a standard among the ROS community.
 
-<p align="center"><img src="./new-wrokflow.png" alt="New workflow" width="700"/></center></p>
+<p align="center"><img src="./new-workflow.png" alt="New workflow" width="750"/></center></p>
 
 
 ## Repository Organization
