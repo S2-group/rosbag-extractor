@@ -1,0 +1,24 @@
+digraph "./bagfiles/ros2/talker0" {
+	graph [rankdir=LR];
+	subgraph "cluster_/topic_0" {
+		graph [label="/topic"];
+	}
+	subgraph "cluster_/rosout_0" {
+		graph [label="/rosout"];
+	}
+	"/_ros2cli_rosbag2"	[label="/_ros2cli_rosbag2"];
+	"/topic"	[color=blue,
+		label="/topic",
+		shape=rectangle,
+		xlabel="2.0Hz"];
+	"/_ros2cli_rosbag2" -> "/topic";
+	"/rosout"	[label="/rosout",
+		shape=rectangle,
+		xlabel="2.0Hz"];
+	"/_ros2cli_rosbag2" -> "/rosout"	[minlen=1];
+	"/minimal_publisher"	[color=blue,
+		label="/minimal_publisher",
+		shape=ellipse];
+	"/minimal_publisher" -> "/topic"	[color=blue,
+		minlen=1];
+}

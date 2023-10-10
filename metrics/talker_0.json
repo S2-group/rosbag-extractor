@@ -1,13 +1,12 @@
 {
-    "Filepath": "bagfiles/ros2/talker",
-    "Start": 1585866235.1124113,
-    "End": 1585866239.6435082,
+    "Filepath": "./bagfiles/ros2/talker",
+    "Start": 1585866236.1124113,
+    "End": 1585866238.1124113,
     "Topics": {
         "/topic": {
             "name": "/topic",
-            "start": 1585866235.6129751,
-            "end": 1585866239.6435084,
-            "frequency": 2.0
+            "source": "external",
+            "frequency": null
         },
         "/rosout": {
             "name": "/rosout",
@@ -23,6 +22,13 @@
             "#publisher": 0,
             "#subscriber": 2,
             "avg_pub_freq": 2.0
+        },
+        "/minimal_publisher": {
+            "name": "/minimal_publisher",
+            "source": "external",
+            "#publisher": 0,
+            "#subscriber": 1,
+            "avg_pub_freq": 0
         }
     }
 }

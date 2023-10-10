@@ -2,10 +2,12 @@
 
 from bagpy import bagreader
 import pandas as pd
-import sys
+import sys,os
 import ast
 from graphviz import Digraph
 from rosbag import ROSBagException
+import json
+from src.extractor import functions
 
 
 def read_rosout(b, bagname):
@@ -17,13 +19,20 @@ def read_rosout(b, bagname):
     all_info = rosout[['name', 'msg', 'topics']]
     return all_info
 
-def generate_topics(graph, all_topics):
+
+def generate_topics(graph, all_topics, metric):
     sub_topics = []
     for topic in all_topics:
         sub_topics += topic.split('/')[1:]
         if topic not in graph:
             graph.node(topic, topic, {'shape': 'rectangle'})
-
+            # tmp = pd.read_csv(get_file_path())
+            # data = {topic: {'name': topic,
+            #                 'start': stamps[1],
+            #                 'end': stamps[-1],
+            #                 'frequency': med_freq
+            #                 }}
+            # metric["Topics"].update(data)
     for sub_topic in sub_topics:
         if sub_topics.count(sub_topic) > 1:
             substring = '/' + sub_topic
@@ -33,6 +42,7 @@ def generate_topics(graph, all_topics):
                     if substring in topic:
                         sub_topic.node(topic, topic, {'shape' : 'rectangle'})
                 sub_topic.attr (label=substring)
+
 
 def generate_edges(graph, all_info, nodes):
     # merge subscribers for each node
@@ -65,10 +75,14 @@ def generate_edges(graph, all_info, nodes):
             graph.edge(publisher, subscriber)
 
 
-def extract_graph(bag, topics, all_info):
+def extract_graph(bag, topics, all_info, metric):
     graph = Digraph(name=bag)
 
-    generate_topics(graph, topics)
+    # initialize the metric
+    metric['Topics'] = {}
+    metric['Nodes'] = {}
+
+    generate_topics(graph, topics, metric)
 
     # if no '/rosout' topic in the bag file
     if len(all_info) == 0:
@@ -76,6 +90,13 @@ def extract_graph(bag, topics, all_info):
         # nodes
         graph.node("/rosbag_record", "/rosbag_record", {'shape': 'oval'})
         graph.node("/rosout", "/rosout", {'shape': 'rectangle'})
+
+        # add fixed nodes
+        metric['Nodes'].update({'/rosbag_record': {'name': '/rosbag_record',
+                                                      'source': 'fixed node',
+                                                      '#publisher': 0,
+                                                      '#subscriber': 0,
+                                                      'avg_pub_freq': 0}})
 
         # edges
         graph.edge("/rosbag_record", "/rosout")
@@ -129,13 +150,27 @@ def main(bagfolder):
     if '/rosout' in b.topics:
         # print("TRUE")
         all_info = read_rosout(b, bag)
+        # for topic in b.topics:
+        #     functions.get_msg_and_info_bag(b, topic)
+        # all_info = read_rosout(b, bag)
     else:
         # print("FALSE")
         # print(b.topics)
         sys.exit()
 
-    extract_graph(bag, b.topics, all_info)
+    metric = dict()
+    metric['Filepath'] = bagfolder
+    metric['Start'] = b.start_time
+    metric['End'] = b.end_time
 
+    extract_graph(bag, b.topics, all_info, metric)
+
+    # save metric
+    directory = 'metrics/'
+    metric_path = 'metrics/' + bagfolder.split('/')[-1] + '.json'
+    os.makedirs(directory, exist_ok=True)
+    with open(metric_path, 'w') as json_file:
+        json.dump(metric, json_file, indent=4)
 
 # if __name__ == "__main__":
 #     main()
