@@ -1,7 +1,60 @@
 {
     "Filepath": "./bagfiles/ros1/turtlesim",
     "Start": 1648042811.173709,
-    "End": 1648042837.6895666,
-    "Topics": {},
-    "Nodes": {}
+    "End": 1648042837.173709,
+    "Topics": {
+        "/rosout": {
+            "name": "/rosout",
+            "start": 1648042811.1738622,
+            "end": 1648042818.175655,
+            "frequency": 0.58
+        },
+        "/rosout_agg": {
+            "name": "/rosout_agg",
+            "start": 1648042818.1759024,
+            "end": 1648042818.1759024,
+            "frequency": 0.28
+        },
+        "/turtle1/cmd_vel": {
+            "name": "/turtle1/cmd_vel",
+            "start": 1648042820.9056585,
+            "end": 1648042832.3577344,
+            "frequency": 1.44
+        },
+        "/turtle1/color_sensor": {
+            "name": "/turtle1/color_sensor",
+            "start": 1648042814.6336951,
+            "end": 1648042837.6895666,
+            "frequency": 62.53
+        },
+        "/turtle1/pose": {
+            "name": "/turtle1/pose",
+            "start": 1648042814.6336117,
+            "end": 1648042837.689559,
+            "frequency": 62.56
+        }
+    },
+    "Nodes": {
+        "/rosout": {
+            "name": "/rosout",
+            "source": "fixed node",
+            "#publisher": 1,
+            "#subscriber": 1,
+            "avg_pub_freq": 0.28
+        },
+        "/record_1648042811117592568": {
+            "name": "/record_1648042811117592568",
+            "source": "bagfile",
+            "#publisher": 4,
+            "#subscriber": 1,
+            "avg_pub_freq": 0.58
+        },
+        "/turtlesim": {
+            "name": "/turtlesim",
+            "source": "bagfile",
+            "#publisher": 0,
+            "#subscriber": 3,
+            "avg_pub_freq": 41.89
+        }
+    }
 }

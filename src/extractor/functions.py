@@ -1,12 +1,25 @@
-import numpy as np
 import pandas as pd
 from src.extractor import group_topic
 import os
 import ast
 import json
 
+
 def get_file_path(bagfolder, topic):
     return bagfolder + "/" + topic.replace("/", "-")[1:] + ".csv"
+
+
+def update_all_info(topic, topic_info, all_info):
+    if len(topic_info['Stamps'].head(1).values) != 0 and len(topic_info['Stamps'].tail(1).values) != 0:
+        new_data = pd.DataFrame({'topics': topic,
+                                 'start-time': topic_info['Stamps'].head(1).values,
+                                 'end-time': topic_info['Stamps'].tail(1).values,
+                                 'med-frequency': get_freq(topic_info['Stamps'].tolist()),
+                                 'mean-frequency': get_mean_freq(topic_info['Stamps'].tolist())
+                                 })
+
+        all_info = pd.concat([all_info, new_data], ignore_index=True)
+    return all_info
 
 
 def get_msg_and_info_db3(reader, connections):
@@ -88,8 +101,7 @@ def generate_topics(bagfolder, graph, topics, graph_n, metric):
             if str(med_freq) != 'nan':
                 graph.node(topic, topic, {'shape': 'rectangle'}, xlabel=(str(med_freq)+'Hz'))
             else:
-                graph.node(topic, topic, {'shape': 'rectangle'}, xlabel=(str(med_freq)))
-            # graph.node(topic, topic, {'shape': 'rectangle'})
+                graph.node(topic, topic, {'shape': 'rectangle'})
 
             data = {topic: {'name': topic,
                             'start': stamps[1],
@@ -124,14 +136,7 @@ def update_avg_freq(metric, node, topic_name):
         return new_avg
 
 
-def generate_edges(bagfolder, graph, topics, nodes, metric):
-    for topic in topics:
-        if topic == '/parameter_events':
-            graph.edge('/parameter_events', '/_ros2cli_rosbag2')
-        graph.edge('/_ros2cli_rosbag2', topic)
-        metric['Nodes']['/_ros2cli_rosbag2']['#subscriber'] += 1
-        metric['Nodes']['/_ros2cli_rosbag2']['avg_pub_freq'] = update_avg_freq(metric, '/_ros2cli_rosbag2', topic)
-
+def generate_edges_external(bagfolder, nodes, graph, metric):
     if len(nodes) > 0:
         df_pubs = pd.read_csv(bagfolder+'/pubs.csv')
         df_subs = pd.read_csv(bagfolder+'/subs.csv')
@@ -172,6 +177,25 @@ def generate_edges(bagfolder, graph, topics, nodes, metric):
                 graph.body[:] = [item for item in graph.body if node not in item]
 
 
+def generate_edges(bagfolder, graph, topics, nodes, metric):
+    for topic in topics:
+        if topic == '/parameter_events':
+            graph.edge('/parameter_events', '/_ros2cli_rosbag2')
+        graph.edge('/_ros2cli_rosbag2', topic)
+        metric['Nodes']['/_ros2cli_rosbag2']['#subscriber'] += 1
+        metric['Nodes']['/_ros2cli_rosbag2']['avg_pub_freq'] = update_avg_freq(metric, '/_ros2cli_rosbag2', topic)
+
+    generate_edges_external(bagfolder, nodes, graph, metric)
+
+
+def save_metric(metric, bagfolder, graph_n):
+    directory = 'metrics/'
+    metric_path = 'metrics/' + bagfolder.split('/')[-1] + '_' + graph_n + '.json'
+    os.makedirs(directory, exist_ok=True)
+    with open(metric_path, 'w') as json_file:
+        json.dump(metric, json_file, indent=4)
+
+
 def create_graph(bagfolder, graph, topics, nodes, graph_n, metric):
     # initialize the metric
     metric['Topics'] = {}
@@ -189,20 +213,21 @@ def create_graph(bagfolder, graph, topics, nodes, graph_n, metric):
     generate_nodes(graph, nodes, metric)
     generate_edges(bagfolder, graph, topics, nodes, metric)
 
+    save_metric(metric, bagfolder, graph_n)
 
-    # save metric
-    directory = 'metrics/'
-    metric_path = 'metrics/'+ bagfolder.split('/')[-1] +'_' + graph_n + '.json'
-    os.makedirs(directory, exist_ok=True)
-    with open(metric_path, 'w') as json_file:
-        json.dump(metric, json_file, indent=4)
 
-def save_graph(bagfolder, graph, graph_n):
+def save_graph(bagfolder, graph, graph_n, ros_v):
     bagname = bagfolder.split('/')[-1]
-    graph.render(filename=bagfolder.split('/')[-1] + '_' + graph_n,
-                 directory="graphs/ros2/" + bagname)
+    if ros_v == "ros1":
+        graph.render(filename=bagfolder.split('/')[-1] + '_' + graph_n,
+                     directory="graphs/ros1/" + bagname)
 
-    dot_file = "graphs/ros2/" + bagname + '/' + bagname + '_' + graph_n + '.dot'
-    with open(dot_file, 'w') as dot_file:
-        dot_file.write(graph.source)
-
+        dot_file = "graphs/ros1/" + bagname + '/' + bagname + '_' + graph_n + '.dot'
+        with open(dot_file, 'w') as dot_file:
+            dot_file.write(graph.source)
+    else:
+        graph.render(filename=bagfolder.split('/')[-1] + '_' + graph_n,
+                     directory="graphs/ros2/" + bagname)
+        dot_file = "graphs/ros2/" + bagname + '/' + bagname + '_' + graph_n + '.dot'
+        with open(dot_file, 'w') as dot_file:
+            dot_file.write(graph.source)

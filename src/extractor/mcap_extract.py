@@ -28,15 +28,7 @@ def main(bagfolder, file, start_t, end_t, input_file, graph_n):
             os.remove(file_path)
         topic_info.to_csv(file_path)
 
-        if len(topic_info['Stamps'].head(1).values) != 0 and len(topic_info['Stamps'].tail(1).values) != 0:
-            new_data = pd.DataFrame({'topics': topic,
-                                     'start-time': topic_info['Stamps'].head(1).values,
-                                     'end-time': topic_info['Stamps'].tail(1).values,
-                                     'med-frequency': functions.get_freq(topic_info['Stamps'].tolist()),
-                                     'mean-frequency': functions.get_mean_freq(topic_info['Stamps'].tolist())
-                                     })
-            all_info = pd.concat([all_info, new_data], ignore_index=True)
-
+        all_info = functions.update_all_info(topic, topic_info, all_info)
     all_info.to_csv(bagfolder + '/' + 'all_info.csv')
 
     # topics within the time range
@@ -62,7 +54,7 @@ def main(bagfolder, file, start_t, end_t, input_file, graph_n):
     functions.create_graph(bagfolder, graph, topics, nodes, graph_n, metric)
 
     # save graph
-    functions.save_graph(bagfolder, graph, graph_n)
+    functions.save_graph(bagfolder, graph, graph_n, "ros2")
 
     # view graph
     graph.unflatten(stagger=5, fanout=True).view()

@@ -1,38 +1,38 @@
 digraph "./bagfiles/ros1/turtlesim/turtlesim" {
-	"/rosout" [label="/rosout" shape=rectangle]
-	"/rosout_agg" [label="/rosout_agg" shape=rectangle]
-	"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" shape=rectangle]
-	"/turtle1/color_sensor" [label="/turtle1/color_sensor" shape=rectangle]
-	"/turtle1/pose" [label="/turtle1/pose" shape=rectangle]
+	"/fixed node" [label="/rosout" shape=oval]
+	"/rosout" [label="/rosout" xlabel="0.58Hz" shape=rectangle]
+	"/rosout_agg" [label="/rosout_agg" xlabel="0.28Hz" shape=rectangle]
+	"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" xlabel="1.44Hz" shape=rectangle]
+	"/turtle1/color_sensor" [label="/turtle1/color_sensor" xlabel="62.53Hz" shape=rectangle]
+	"/turtle1/pose" [label="/turtle1/pose" xlabel="62.56Hz" shape=rectangle]
 	subgraph cluster_turtle1 {
-		"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" shape=rectangle]
-		"/turtle1/color_sensor" [label="/turtle1/color_sensor" shape=rectangle]
-		"/turtle1/pose" [label="/turtle1/pose" shape=rectangle]
+		"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" xlabel="1.44Hz" shape=rectangle]
+		"/turtle1/color_sensor" [label="/turtle1/color_sensor" xlabel="62.53Hz" shape=rectangle]
+		"/turtle1/pose" [label="/turtle1/pose" xlabel="62.56Hz" shape=rectangle]
 		label="/turtle1"
 	}
 	subgraph cluster_turtle1 {
-		"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" shape=rectangle]
-		"/turtle1/color_sensor" [label="/turtle1/color_sensor" shape=rectangle]
-		"/turtle1/pose" [label="/turtle1/pose" shape=rectangle]
+		"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" xlabel="1.44Hz" shape=rectangle]
+		"/turtle1/color_sensor" [label="/turtle1/color_sensor" xlabel="62.53Hz" shape=rectangle]
+		"/turtle1/pose" [label="/turtle1/pose" xlabel="62.56Hz" shape=rectangle]
 		label="/turtle1"
 	}
 	subgraph cluster_turtle1 {
-		"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" shape=rectangle]
-		"/turtle1/color_sensor" [label="/turtle1/color_sensor" shape=rectangle]
-		"/turtle1/pose" [label="/turtle1/pose" shape=rectangle]
+		"/turtle1/cmd_vel" [label="/turtle1/cmd_vel" xlabel="1.44Hz" shape=rectangle]
+		"/turtle1/color_sensor" [label="/turtle1/color_sensor" xlabel="62.53Hz" shape=rectangle]
+		"/turtle1/pose" [label="/turtle1/pose" xlabel="62.56Hz" shape=rectangle]
 		label="/turtle1"
 	}
+	"/rosout" -> "/fixed node"
+	"/fixed node" -> "/rosout_agg"
 	"/record_1648042811117592568" [label="/record_1648042811117592568" shape=oval]
 	"/turtlesim" [label="/turtlesim" shape=oval]
 	"/record_1648042811117592568" -> "/rosout"
-	"/turtlesim" -> "/turtle1/pose"
-	"/turtlesim" -> "/rosout"
 	"/turtlesim" -> "/turtle1/color_sensor"
+	"/turtlesim" -> "/rosout"
+	"/turtlesim" -> "/turtle1/pose"
 	"/rosout" -> "/record_1648042811117592568"
 	"/rosout_agg" -> "/record_1648042811117592568"
 	"/turtle1/pose" -> "/record_1648042811117592568"
 	"/turtle1/cmd_vel" -> "/record_1648042811117592568"
-	"/fixed node" [label="/rosout" shape=oval]
-	"/rosout" -> "/fixed node"
-	"/fixed node" -> "/rosout_agg"
 }

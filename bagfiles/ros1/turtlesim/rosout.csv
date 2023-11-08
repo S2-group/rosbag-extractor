@@ -1,6 +1,0 @@
-Time,header.seq,header.stamp.secs,header.stamp.nsecs,header.frame_id,level,name,msg,file,function,line,topics
-1648042811.173709,3,1648042811,156161010,,2,/record_1648042811117592568,Subscribing to /rosout,/tmp/binarydeb/ros-melodic-rosbag-1.14.11/src/recorder.cpp,shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe,255,['/rosout']
-1648042811.1738622,4,1648042811,162590399,,2,/record_1648042811117592568,Subscribing to /rosout_agg,/tmp/binarydeb/ros-melodic-rosbag-1.14.11/src/recorder.cpp,shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe,255,['/rosout']
-1648042811.1739252,5,1648042811,167600053,,2,/record_1648042811117592568,Subscribing to /turtle1/pose,/tmp/binarydeb/ros-melodic-rosbag-1.14.11/src/recorder.cpp,shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe,255,['/rosout']
-1648042814.6147451,1,1648042814,400974504,,2,/turtlesim,"Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]",/tmp/binarydeb/ros-melodic-turtlesim-0.9.3/src/turtle_frame.cpp,__cxx11::string turtlesim::TurtleFrame::spawnTurtle,196,"['/rosout', '/turtle1/pose', '/turtle1/color_sensor']"
-1648042818.175655,6,1648042818,175307353,,2,/record_1648042811117592568,Subscribing to /turtle1/cmd_vel,/tmp/binarydeb/ros-melodic-rosbag-1.14.11/src/recorder.cpp,shared_ptr<ros::Subscriber> rosbag::Recorder::subscribe,255,['/rosout']
