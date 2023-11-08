@@ -1,12 +1,27 @@
 import numpy as np
 import pandas as pd
+from bagpy import bagreader
 from src.extractor import group_topic
 import os
 import ast
 import json
 
+
 def get_file_path(bagfolder, topic):
     return bagfolder + "/" + topic.replace("/", "-")[1:] + ".csv"
+
+
+def update_all_info(topic, topic_info, all_info):
+    if len(topic_info['Stamps'].head(1).values) != 0 and len(topic_info['Stamps'].tail(1).values) != 0:
+        new_data = pd.DataFrame({'topics': topic,
+                                 'start-time': topic_info['Stamps'].head(1).values,
+                                 'end-time': topic_info['Stamps'].tail(1).values,
+                                 'med-frequency': get_freq(topic_info['Stamps'].tolist()),
+                                 'mean-frequency': get_mean_freq(topic_info['Stamps'].tolist())
+                                 })
+
+        all_info = pd.concat([all_info, new_data], ignore_index=True)
+    return all_info
 
 
 def get_msg_and_info_db3(reader, connections):
@@ -88,8 +103,7 @@ def generate_topics(bagfolder, graph, topics, graph_n, metric):
             if str(med_freq) != 'nan':
                 graph.node(topic, topic, {'shape': 'rectangle'}, xlabel=(str(med_freq)+'Hz'))
             else:
-                graph.node(topic, topic, {'shape': 'rectangle'}, xlabel=(str(med_freq)))
-            # graph.node(topic, topic, {'shape': 'rectangle'})
+                graph.node(topic, topic, {'shape': 'rectangle'})
 
             data = {topic: {'name': topic,
                             'start': stamps[1],

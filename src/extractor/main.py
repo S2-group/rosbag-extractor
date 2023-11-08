@@ -42,6 +42,8 @@ def check_time_range(start, bag_start, end, bag_end):
         except ValueError as err:
             print("ValueError: ", err)
             sys.exit()
+
+    print("Input time range valid.")
     return start_t, end_t
 
 
@@ -50,16 +52,15 @@ def extractor(start, end, path_to_file, filetype, input_file, time_space):
         bagfile = path_to_file + '/' + path_to_file.split('/')[-1] + ".bag"
 
         b = bagreader(bagfile)
-        # bag_start = b.start_time
-        # bag_end = b.end_time
-        # start_t, end_t = check_time_range(start, bag_start, end, bag_end)
-        # bag.main(path_to_file, start_t, end_t, input_file)
-        bag.main(path_to_file)
+        bag_start = b.start_time
+        bag_end = b.end_time
+        start_t, end_t = check_time_range(start, bag_start, end, bag_end)
+
+        bag.main(path_to_file, start_t, end_t)
     elif filetype == 'db3':
         with Reader(path_to_file) as reader:
             bag_start = reader.start_time / 1000000000
             bag_end = reader.end_time / 1000000000
-
         start_t, end_t = check_time_range(start, bag_start, end, bag_end)
 
         if time_space is not None:
