@@ -1,6 +1,7 @@
 from bagpy import bagreader
 import pandas as pd
-import sys,os
+import sys
+import os
 import ast
 from graphviz import Digraph
 from rosbag import ROSBagException
@@ -8,18 +9,11 @@ import json
 from src.extractor import functions
 
 
-def read_rosout(b, bagname):
-    # print(bagname)
-    rosout = pd.read_csv(bagname + '/rosout.csv')
-    rosout_info = rosout[['name', 'msg', 'topics']]
-    return rosout_info
-
-
 def get_file_name(folder):
     return folder + '/' + folder.split('/')[-1] + ".bag"
 
 
-def generate_topics(bag, graph, all_topics, all_info, metric):
+def generate_topics(bag, graph, all_topics, metric):
     sub_topics = []
     for topic in all_topics:
         sub_topics += topic.split('/')[1:]
@@ -44,10 +38,9 @@ def generate_topics(bag, graph, all_topics, all_info, metric):
         if sub_topics.count(sub_topic) > 1:
             substring = '/' + sub_topic
             # create clusters
-            with graph.subgraph(name='cluster_'+ sub_topic) as sub_topic:
+            with graph.subgraph(name='cluster_' + sub_topic) as sub_topic:
                 for topic in all_topics:
                     if substring in topic:
-                        # sub_topic.node(topic, topic, {'shape' : 'rectangle'})
                         tmp = pd.read_csv(functions.get_file_path(bag, topic))
                         stamps = tmp['Stamps'].tolist()
                         period = [s1 - s0 for s1, s0 in zip(stamps[1:], stamps[:-1])]
@@ -63,7 +56,7 @@ def generate_topics(bag, graph, all_topics, all_info, metric):
                                         'frequency': med_freq
                                         }}
                         metric["Topics"].update(data)
-                sub_topic.attr (label=substring)
+                sub_topic.attr(label=substring)
 
 
 def generate_edges(graph, rosout_info, topics, nodes, metric):
@@ -101,7 +94,7 @@ def generate_edges(graph, rosout_info, topics, nodes, metric):
             metric['Nodes'][subscriber]['#publisher'] += 1
 
 
-def extract_graph(bag, topics, rosout_info, all_info, metric):
+def extract_graph(bag, topics, rosout_info, metric):
     graph = Digraph(name=bag)
 
     # initialize the metric
@@ -111,13 +104,13 @@ def extract_graph(bag, topics, rosout_info, all_info, metric):
     # add fixed node
     graph.node("/fixed node", "/rosout", {'shape': 'oval'})
     metric['Nodes'].update({'/rosout': {'name': '/rosout',
-                                   'source': 'fixed node',
-                                   '#publisher': 0,
-                                   '#subscriber': 0,
-                                   'avg_pub_freq': 0}})
+                                        'source': 'fixed node',
+                                        '#publisher': 0,
+                                        '#subscriber': 0,
+                                        'avg_pub_freq': 0}})
 
     # topics
-    generate_topics(bag, graph, topics, all_info, metric)
+    generate_topics(bag, graph, topics, metric)
 
     # add fixed edges
     graph.edge("/rosout", "/fixed node")
@@ -145,7 +138,7 @@ def extract_graph(bag, topics, rosout_info, all_info, metric):
     graph.render(filename=bag.split('/')[-1],
                  directory="graphs/ros1/"+bagname)
 
-    dot_file = "graphs/ros1/"+ bagname + '/' + bagname + '.dot'
+    dot_file = "graphs/ros1/" + bagname + '/' + bagname + '.dot'
     with open(dot_file, 'w') as dot_file:
         dot_file.write(graph.source)
 
@@ -157,7 +150,7 @@ def main(bagfolder, start_t, end_t):
     bagfile = get_file_name(bagfolder)
     bag = bagfile.replace('.bag', '')
 
-    while(True):
+    while True:
         try:
             b = bagreader(bagfile)
             break
@@ -203,7 +196,7 @@ def main(bagfolder, start_t, end_t):
     metric['Start'] = start_t
     metric['End'] = end_t
 
-    extract_graph(bag, topics, rosout_info, all_info, metric)
+    extract_graph(bag, topics, rosout_info, metric)
 
     # save metric
     directory = 'metrics/'
