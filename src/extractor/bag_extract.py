@@ -94,7 +94,7 @@ def generate_edges(graph, rosout_info, topics, nodes, metric):
             metric['Nodes'][subscriber]['#publisher'] += 1
 
 
-def extract_graph(bag, topics, rosout_info, metric, graph_n):
+def extract_graph(bag, topics, external_nodes, rosout_info, metric, graph_n):
     graph = Digraph(name=bag+graph_n)
 
     # initialize the metric
@@ -102,7 +102,7 @@ def extract_graph(bag, topics, rosout_info, metric, graph_n):
     metric['Nodes'] = {}
 
     # add fixed node
-    graph.node("/fixed node", "/rosout", {'shape': 'oval'})
+    graph.node("/fixed node", "/rosout", {'shape': 'ellipse'})
     metric['Nodes'].update({'/rosout': {'name': '/rosout',
                                         'source': 'fixed node',
                                         '#publisher': 0,
@@ -121,18 +121,24 @@ def extract_graph(bag, topics, rosout_info, metric, graph_n):
         metric['Nodes']['/rosout']['#publisher'] += 1
         metric['Nodes']['/rosout']['avg_pub_freq'] = functions.update_avg_freq(metric, '/rosout', '/rosout_agg')
 
-    # nodes
+    # nodes bagfile
     nodes = rosout_info['name'].unique()
     for node in nodes:
-        graph.node(node, node, {'shape': 'oval'})
+        graph.node(node, node, {'shape': 'ellipse'})
         metric['Nodes'].update({node: {'name': node,
                                        'source': 'bagfile',
                                        '#publisher': 0,
                                        '#subscriber': 0,
                                        'avg_pub_freq': 0}})
 
+    # nodes external
+    functions.generate_nodes(graph, external_nodes, metric)
+
     # edges
     generate_edges(graph, rosout_info, topics, nodes, metric)
+
+    # edges external
+    functions.generate_edges_external(bag, external_nodes, graph, metric)
 
     # save graph
     functions.save_graph(bag, graph, graph_n, "ros1")
@@ -143,7 +149,7 @@ def extract_graph(bag, topics, rosout_info, metric, graph_n):
     # view graph
     graph.unflatten(stagger=3, fanout=True).view()
 
-def main(bagfolder, start_t, end_t, graph_n):
+def main(bagfolder, start_t, end_t, input_file, graph_n):
     bagfile = get_file_name(bagfolder)
     bag = bagfile.replace('.bag', '')
 
@@ -184,6 +190,12 @@ def main(bagfolder, start_t, end_t, graph_n):
                     if topic_data['end-time'].values[0] > start_t:
                         topics.append(topic)
 
+        if input_file is not None:  # with external file
+            functions.read_csvs(bag, input_file)
+            nodes = functions.get_all_nodes(input_file)
+        else:
+            nodes = []
+
     else:
         print("No architectural information can be extracted because the topic '/rosout' is not recorded")
         sys.exit()
@@ -193,7 +205,7 @@ def main(bagfolder, start_t, end_t, graph_n):
     metric['Start'] = start_t
     metric['End'] = end_t
 
-    extract_graph(bag, topics, rosout_info, metric, graph_n)
+    extract_graph(bag, topics, nodes, rosout_info, metric, graph_n)
 
     # save metric
     directory = 'metrics/'

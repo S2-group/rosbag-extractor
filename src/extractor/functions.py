@@ -1,6 +1,4 @@
-import numpy as np
 import pandas as pd
-from bagpy import bagreader
 from src.extractor import group_topic
 import os
 import ast
@@ -138,14 +136,7 @@ def update_avg_freq(metric, node, topic_name):
         return new_avg
 
 
-def generate_edges(bagfolder, graph, topics, nodes, metric):
-    for topic in topics:
-        if topic == '/parameter_events':
-            graph.edge('/parameter_events', '/_ros2cli_rosbag2')
-        graph.edge('/_ros2cli_rosbag2', topic)
-        metric['Nodes']['/_ros2cli_rosbag2']['#subscriber'] += 1
-        metric['Nodes']['/_ros2cli_rosbag2']['avg_pub_freq'] = update_avg_freq(metric, '/_ros2cli_rosbag2', topic)
-
+def generate_edges_external(bagfolder, nodes, graph, metric):
     if len(nodes) > 0:
         df_pubs = pd.read_csv(bagfolder+'/pubs.csv')
         df_subs = pd.read_csv(bagfolder+'/subs.csv')
@@ -184,6 +175,17 @@ def generate_edges(bagfolder, graph, topics, nodes, metric):
             # remove the node if the node has no publisher or subscriber
             if len(pub_to_topics) == 0 and len(sub_to_topics) == 0:
                 graph.body[:] = [item for item in graph.body if node not in item]
+
+
+def generate_edges(bagfolder, graph, topics, nodes, metric):
+    for topic in topics:
+        if topic == '/parameter_events':
+            graph.edge('/parameter_events', '/_ros2cli_rosbag2')
+        graph.edge('/_ros2cli_rosbag2', topic)
+        metric['Nodes']['/_ros2cli_rosbag2']['#subscriber'] += 1
+        metric['Nodes']['/_ros2cli_rosbag2']['avg_pub_freq'] = update_avg_freq(metric, '/_ros2cli_rosbag2', topic)
+
+    generate_edges_external(bagfolder, nodes, graph, metric)
 
 
 def save_metric(metric, bagfolder, graph_n):
