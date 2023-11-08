@@ -186,6 +186,14 @@ def generate_edges(bagfolder, graph, topics, nodes, metric):
                 graph.body[:] = [item for item in graph.body if node not in item]
 
 
+def save_metric(metric, bagfolder, graph_n):
+    directory = 'metrics/'
+    metric_path = 'metrics/' + bagfolder.split('/')[-1] + '_' + graph_n + '.json'
+    os.makedirs(directory, exist_ok=True)
+    with open(metric_path, 'w') as json_file:
+        json.dump(metric, json_file, indent=4)
+
+
 def create_graph(bagfolder, graph, topics, nodes, graph_n, metric):
     # initialize the metric
     metric['Topics'] = {}
@@ -203,20 +211,21 @@ def create_graph(bagfolder, graph, topics, nodes, graph_n, metric):
     generate_nodes(graph, nodes, metric)
     generate_edges(bagfolder, graph, topics, nodes, metric)
 
+    save_metric(metric, bagfolder, graph_n)
 
-    # save metric
-    directory = 'metrics/'
-    metric_path = 'metrics/'+ bagfolder.split('/')[-1] +'_' + graph_n + '.json'
-    os.makedirs(directory, exist_ok=True)
-    with open(metric_path, 'w') as json_file:
-        json.dump(metric, json_file, indent=4)
 
-def save_graph(bagfolder, graph, graph_n):
+def save_graph(bagfolder, graph, graph_n, ros_v):
     bagname = bagfolder.split('/')[-1]
-    graph.render(filename=bagfolder.split('/')[-1] + '_' + graph_n,
-                 directory="graphs/ros2/" + bagname)
+    if ros_v == "ros1":
+        graph.render(filename=bagfolder.split('/')[-1] + '_' + graph_n,
+                     directory="graphs/ros1/" + bagname)
 
-    dot_file = "graphs/ros2/" + bagname + '/' + bagname + '_' + graph_n + '.dot'
-    with open(dot_file, 'w') as dot_file:
-        dot_file.write(graph.source)
-
+        dot_file = "graphs/ros1/" + bagname + '/' + bagname + '_' + graph_n + '.dot'
+        with open(dot_file, 'w') as dot_file:
+            dot_file.write(graph.source)
+    else:
+        graph.render(filename=bagfolder.split('/')[-1] + '_' + graph_n,
+                     directory="graphs/ros2/" + bagname)
+        dot_file = "graphs/ros2/" + bagname + '/' + bagname + '_' + graph_n + '.dot'
+        with open(dot_file, 'w') as dot_file:
+            dot_file.write(graph.source)

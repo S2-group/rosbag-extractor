@@ -47,7 +47,7 @@ def main(bagfolder, start_t, end_t, input_file, graph_n):
         functions.create_graph(bagfolder, graph, topics, nodes, graph_n, metric)
 
         # save graph
-        functions.save_graph(bagfolder, graph, graph_n)
+        functions.save_graph(bagfolder, graph, graph_n, "ros2")
 
         # view graph
         graph.unflatten(stagger=5, fanout=True).view()

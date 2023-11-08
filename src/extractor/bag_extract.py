@@ -94,8 +94,8 @@ def generate_edges(graph, rosout_info, topics, nodes, metric):
             metric['Nodes'][subscriber]['#publisher'] += 1
 
 
-def extract_graph(bag, topics, rosout_info, metric):
-    graph = Digraph(name=bag)
+def extract_graph(bag, topics, rosout_info, metric, graph_n):
+    graph = Digraph(name=bag+graph_n)
 
     # initialize the metric
     metric['Topics'] = {}
@@ -112,13 +112,14 @@ def extract_graph(bag, topics, rosout_info, metric):
     # topics
     generate_topics(bag, graph, topics, metric)
 
-    # add fixed edges
-    graph.edge("/rosout", "/fixed node")
-    metric['Nodes']['/rosout']['#subscriber'] += 1
-    metric['Nodes']['/rosout']['avg_pub_freq'] = functions.update_avg_freq(metric, '/rosout', '/rosout')
-    graph.edge("/fixed node", "/rosout_agg")
-    metric['Nodes']['/rosout']['#publisher'] += 1
-    metric['Nodes']['/rosout']['avg_pub_freq'] = functions.update_avg_freq(metric, '/rosout', '/rosout_agg')
+    if '/rosout' in graph:
+        graph.edge("/rosout", "/fixed node")
+        metric['Nodes']['/rosout']['#subscriber'] += 1
+        metric['Nodes']['/rosout']['avg_pub_freq'] = functions.update_avg_freq(metric, '/rosout', '/rosout')
+    if '/rosout_agg' in graph:
+        graph.edge("/fixed node", "/rosout_agg")
+        metric['Nodes']['/rosout']['#publisher'] += 1
+        metric['Nodes']['/rosout']['avg_pub_freq'] = functions.update_avg_freq(metric, '/rosout', '/rosout_agg')
 
     # nodes
     nodes = rosout_info['name'].unique()
@@ -134,19 +135,15 @@ def extract_graph(bag, topics, rosout_info, metric):
     generate_edges(graph, rosout_info, topics, nodes, metric)
 
     # save graph
-    bagname = bag.split('/')[-1]
-    graph.render(filename=bag.split('/')[-1],
-                 directory="graphs/ros1/"+bagname)
+    functions.save_graph(bag, graph, graph_n, "ros1")
 
-    dot_file = "graphs/ros1/" + bagname + '/' + bagname + '.dot'
-    with open(dot_file, 'w') as dot_file:
-        dot_file.write(graph.source)
+    # save metric
+    functions.save_metric(metric, bag, graph_n)
 
     # view graph
     graph.unflatten(stagger=3, fanout=True).view()
 
-
-def main(bagfolder, start_t, end_t):
+def main(bagfolder, start_t, end_t, graph_n):
     bagfile = get_file_name(bagfolder)
     bag = bagfile.replace('.bag', '')
 
@@ -196,7 +193,7 @@ def main(bagfolder, start_t, end_t):
     metric['Start'] = start_t
     metric['End'] = end_t
 
-    extract_graph(bag, topics, rosout_info, metric)
+    extract_graph(bag, topics, rosout_info, metric, graph_n)
 
     # save metric
     directory = 'metrics/'
